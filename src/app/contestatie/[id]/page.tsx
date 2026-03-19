@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { PDFDownloadButton } from "@/components/pdf/ContestatiePDF";
 import { ContestatieTextEditor } from "@/components/contestatie-text-editor";
+import { NextStepsCard } from "@/components/next-steps-card";
 
 export const dynamic = "force-dynamic";
 
@@ -195,18 +196,26 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
 
       {/* Generated text */}
       {textCurat ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Contestația generată</CardTitle>
-            <CardDescription>
-              Document redactat de AI — verifică înainte de a trimite
-            </CardDescription>
-          </CardHeader>
-          <Separator />
-          <CardContent className="pt-6">
-            <ContestatieTextEditor id={contestatie.id} initialText={textCurat} />
-          </CardContent>
-        </Card>
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Contestația generată</CardTitle>
+              <CardDescription>
+                Document redactat de AI — verifică înainte de a trimite
+              </CardDescription>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-6">
+              <ContestatieTextEditor id={contestatie.id} initialText={textCurat} />
+            </CardContent>
+          </Card>
+
+          <NextStepsCard
+            tip={contestatie.tip}
+            dataComunicare={dateAmenda.dataComunicare}
+            emitent={dateAmenda.emitent}
+          />
+        </>
       ) : (
         <Card className="flex flex-col items-center justify-center py-16 text-center">
           <CardHeader>

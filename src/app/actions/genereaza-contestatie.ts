@@ -81,7 +81,7 @@ function buildPrompt(input: ContestatieInput): string {
       .map((m, i) => `${i + 1}. ${m}`)
       .join("\n");
 
-  return `Generează corpul unei ${denumireAct} formale în limba română, redactată într-un stil juridic clar, coerent și profesionist.
+  return `Generează corpul unei ${denumireAct} formale în limba română, adresată ${destinatar}, redactată într-un stil juridic clar, coerent și profesionist.
 
 DATELE CAZULUI:
 - Petent: ${datePersonale.numePrenume}, CNP ${datePersonale.cnp}, ${datePersonale.adresa}, jud. ${datePersonale.judet}
