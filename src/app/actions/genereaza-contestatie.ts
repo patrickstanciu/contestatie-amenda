@@ -1,11 +1,14 @@
 "use server";
-
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import OpenAI from "openai";
 import { stripMarkdown } from "@/lib/strip-markdown";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  timeout: 60_000,
+  maxRetries: 2,
+});
 
 export type ContestatieInput = {
   tip: string;
@@ -42,20 +45,34 @@ const TIP_LABELS: Record<string, string> = {
 function buildPrompt(input: ContestatieInput): string {
   const { tip, datePersonale, dateAmenda, motiveSelectate, motiveCustom } =
       input;
-  const esteANAF = tip === 'anaf';
 
-  const denumireAct = esteANAF ? "Contestație Administrativă" : "Plângere Contravențională";
-  const destinatar = esteANAF ? `unității emitente ${dateAmenda.emitent}` : "Judecătoriei competente";
+  const esteANAF = tip === "anaf";
+
+  const denumireAct = esteANAF
+      ? "Contestație Administrativă"
+      : "Plângere Contravențională";
+
+  const destinatar = esteANAF
+      ? `unității emitente ${dateAmenda.emitent}`
+      : "Judecătoriei competente potrivit legii";
 
   const temeiuriSuplimentare: Record<string, string> = {
-    anaf: "Codul de Procedură Fiscală (Legea 207/2015), Art. 336-339",
-    politie_rutiera: "OUG 195/2002 privind circulația pe drumurile publice, HG 1391/2006",
-    primarie: "Legea 215/2001 a administrației publice locale, OG 2/2001",
-    itm: "Legea 108/1999 (Codul Muncii), Legea 252/2003 privind registrul de evidență a salariaților",
-    isctr: "OG 27/2011 privind transporturile rutiere, Legea 38/2003",
-    altele: "OG 2/2001 privind regimul juridic al contravențiilor, Legea 554/2004",
+    anaf:
+        "Codul de procedură fiscală (Legea 207/2015)",
+    politie_rutiera:
+        "OUG 195/2002 privind circulația pe drumurile publice și HG 1391/2006",
+    primarie:
+        "Codul administrativ (OUG 57/2019) și OG 2/2001",
+    itm:
+        "Codul muncii (Legea 53/2003) și Legea 108/1999",
+    isctr:
+        "OG 27/2011 privind transporturile rutiere și Legea 38/2003",
+    altele:
+        "OG 2/2001 privind regimul juridic al contravențiilor și Legea 554/2004",
   };
-  const temeiSpecific = temeiuriSuplimentare[tip] ?? temeiuriSuplimentare.altele;
+
+  const temeiSpecific =
+      temeiuriSuplimentare[tip] ?? temeiuriSuplimentare.altele;
 
   const motiveLista = [
     ...motiveSelectate,
@@ -64,41 +81,49 @@ function buildPrompt(input: ContestatieInput): string {
       .map((m, i) => `${i + 1}. ${m}`)
       .join("\n");
 
-  return `Generează corpul unei ${denumireAct} formale în limba română, adresată către ${destinatar}.
+  return `Generează corpul unei ${denumireAct} formale în limba română, redactată într-un stil juridic clar, coerent și profesionist.
 
 DATELE CAZULUI:
 - Petent: ${datePersonale.numePrenume}, CNP ${datePersonale.cnp}, ${datePersonale.adresa}, jud. ${datePersonale.judet}
 - Autoritate emitentă: ${TIP_LABELS[tip] ?? tip} — ${dateAmenda.emitent}
-- Nr. proces verbal: ${dateAmenda.nrProcesVerbal}, data: ${dateAmenda.dataAmenda}
-- Data comunicării (primirii PV): ${dateAmenda.dataComunicare || "nespecificată"}
+- Nr. proces-verbal: ${dateAmenda.nrProcesVerbal}, data: ${dateAmenda.dataAmenda}
+- Data comunicării: ${dateAmenda.dataComunicare || "nespecificată"}
 - Suma amenzii: ${dateAmenda.suma} RON
-- Temei legal invocat în PV: ${dateAmenda.temeiLegal || "nedeclarat"}
+- Temei legal invocat în procesul-verbal: ${dateAmenda.temeiLegal || "nespecificat"}
 - Fapta reținută: ${dateAmenda.descriereFapta}
-- Motive de contestare:
+- Motive invocate:
 ${motiveLista}
 
-INSTRUCȚIUNI JURIDICE SPECIALE:
-1. Dacă motivele includ erori de sistem sau prescripție, dezvoltă argumentația pe nulitatea absolută a procesului-verbal conform Art. 16 și 17 din OG 2/2001.
-2. În secțiunea PETIT, solicită OBLIGATORIU, în mod subsidiar, înlocuirea amenzii cu AVERTISMENT conform Art. 7 din OG 2/2001, motivând prin buna credință a contribuabilului și lipsa pericolului social.
-3. Invocă obligatoriu legislația specifică: ${temeiSpecific}.
-4. Menționează jurisprudența CEDO (cauza Anghel v. România) privind prezumția de nevinovăție în materie contravențională (asimilitată materiei penale).
+INSTRUCȚIUNI JURIDICE:
+1. Analizează fiecare motiv și încadrează-l juridic corect (ex: vicii de formă, lipsa temeiniciei, prescripție, lipsa probelor).
+2. În cazul viciilor de formă, poți invoca dispozițiile relevante din OG 2/2001 (ex. art. 16-17), dacă sunt aplicabile.
+3. În cazul prescripției, tratează distinct această cauză conform normelor legale aplicabile.
+4. Utilizează legislația generală: OG 2/2001 și Legea 554/2004, precum și legislația specifică: ${temeiSpecific}.
+5. Poți face referire la jurisprudență relevantă (inclusiv CEDO, de exemplu cauza Anghel v. România) doar dacă este pertinentă pentru argumentație.
+6. Nu presupune automat culpa sau nevinovăția — argumentează pe baza datelor furnizate.
 
-INSTRUCȚIUNI DE FORMAT — respectă-le cu strictețe:
-- NU include antet, adrese sau titlul documentului — acestea sunt adăugate automat.
-- NU folosi markdown (fără **, fără #, fără _), HTML sau alte sintaxe de formatare.
-- Titlurile de secțiune se scriu CU MAJUSCULE pe o linie separată, urmate de o linie goală.
-- Paragrafele se separă printr-o linie goală.
-- Textul trebuie să fie plain text, gata de inclus într-un document oficial.
+INSTRUCȚIUNI DE REDACTARE:
+- Nu include titlul documentului, antet sau date de adresare.
+- Nu folosi markdown, simboluri speciale sau formatare HTML.
+- Folosește doar text simplu (plain text).
+- Titlurile secțiunilor se scriu CU MAJUSCULE, pe linie separată, urmate de o linie goală.
+- Paragrafele se separă printr-o linie liberă.
+- Evită repetițiile și formulările inutile.
 
-STRUCTURA CORPULUI (în această ordine):
-1. INTRODUCERE — identificarea actului contestat (PV nr. ${dateAmenda.nrProcesVerbal})
-2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 și ${temeiSpecific}
-3. MOTIVE DE FAPT ȘI DE DREPT — argumentează fiecare motiv detaliat și separat, incluzând referința la cauza Anghel v. România
-4. PETIT — solicitarea principală (anulare PV, restituire sumă) și solicitarea subsidiară (înlocuire cu avertisment)
-5. PROBE SOLICITATE (înscrisuri, log-uri tehnice, recipise, etc.)
-6. MENȚIUNE SCUTIRE TAXĂ DE TIMBRU (art. 7 OUG 80/2013)
+STRUCTURA DOCUMENTULUI:
+1. INTRODUCERE — identificarea procesului-verbal contestat
+2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 și legislația specifică aplicabilă
+3. MOTIVE DE FAPT ȘI DE DREPT — dezvoltă fiecare motiv separat, clar și argumentat
+4. PETIT:
+   - solicitarea principală: anularea procesului-verbal și, dacă este cazul, restituirea sumei
+   - solicitare subsidiară: înlocuirea sancțiunii cu avertisment, dacă instanța apreciază că sunt îndeplinite condițiile legale
+5. PROBE — indică tipuri de probe relevante (înscrisuri, înregistrări, etc.)
+6. MENȚIUNI FINALE — inclusiv aspecte privind taxa de timbru, dacă este aplicabil
 
-Folosește limbaj juridic formal, clar și profesional. Documentul trebuie să fie complet și gata de depus.`;
+IMPORTANT:
+Textul trebuie să fie redactat ca un model orientativ, bazat exclusiv pe informațiile furnizate, și poate necesita adaptare în funcție de circumstanțele concrete ale cauzei.
+
+Redactează documentul complet, coerent și pregătit pentru utilizare.`;
 }
 
 export async function genereazaContestatia(
@@ -110,26 +135,38 @@ export async function genereazaContestatia(
     throw new Error("Neautentificat. Te rugăm să te autentifici.");
   }
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-5.4-mini",
-    messages: [
-      {
-        role: "system",
-        content:
-          "Ești un avocat expert în drept administrativ român. Redactezi contestații administrative profesionale, corecte din punct de vedere legal, în limba română. Folosești un limbaj juridic formal și precis. Contestațiile respectă legislația română în vigoare.",
-      },
-      {
-        role: "user",
-        content: buildPrompt(input),
-      },
-    ],
-    temperature: 0.3,
-    max_completion_tokens: 3000,
-  });
+  let completion;
+  try {
+    completion = await openai.chat.completions.create({
+      model: "gpt-5.4-mini",
+      messages: [
+        {
+          role: "system",
+          content:
+            "Ești un avocat expert în drept administrativ român. Redactezi contestații administrative profesionale, corecte din punct de vedere legal, în limba română. Folosești un limbaj juridic formal și precis. Contestațiile respectă legislația română în vigoare.",
+        },
+        {
+          role: "user",
+          content: buildPrompt(input),
+        },
+      ],
+      temperature: 0.3,
+      max_completion_tokens: 3000,
+    });
+  } catch (err) {
+    if (err instanceof OpenAI.APIError) {
+      if (err.status === 401) throw new Error("Cheie API OpenAI invalidă. Verifică configurarea.");
+      if (err.status === 429) throw new Error("Limita de utilizare OpenAI a fost atinsă. Încearcă din nou în câteva minute.");
+      if (err.status >= 500) throw new Error("Serviciul OpenAI este temporar indisponibil. Încearcă din nou.");
+      throw new Error(`Eroare OpenAI (${err.status}): ${err.message}`);
+    }
+    throw new Error("Generarea a eșuat. Verifică conexiunea și încearcă din nou.");
+  }
 
-  const textGenerat = stripMarkdown(
-    completion.choices[0]?.message?.content?.trim() ?? ""
-  );
+  const rawText = completion.choices[0]?.message?.content?.trim();
+  if (!rawText) throw new Error("Modelul AI nu a returnat niciun conținut. Încearcă din nou.");
+
+  const textGenerat = stripMarkdown(rawText);
 
   const contestatie = await prisma.contestatie.create({
     data: {

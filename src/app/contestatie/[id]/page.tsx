@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { PDFDownloadButton } from "@/components/pdf/ContestatiePDF";
+import { ContestatieTextEditor } from "@/components/contestatie-text-editor";
 
 export const dynamic = "force-dynamic";
 
@@ -95,7 +96,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
             </h1>
             <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
           </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-m">
             Generată la{" "}
             {new Date(contestatie.createdAt).toLocaleDateString("ro-RO", {
               day: "2-digit",
@@ -128,7 +129,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Date personale</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm space-y-1.5 text-muted-foreground">
+          <CardContent className="text-m space-y-1.5 text-muted-foreground">
             <p>
               <span className="font-medium text-foreground">Nume:</span>{" "}
               {datePersonale.numePrenume}
@@ -155,7 +156,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Detalii amendă</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm space-y-1.5 text-muted-foreground">
+          <CardContent className="text-m space-y-1.5 text-muted-foreground">
             <p>
               <span className="font-medium text-foreground">Nr. PV:</span>{" "}
               {dateAmenda.nrProcesVerbal}
@@ -203,11 +204,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
           </CardHeader>
           <Separator />
           <CardContent className="pt-6">
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
-                {textCurat}
-              </pre>
-            </div>
+            <ContestatieTextEditor id={contestatie.id} initialText={textCurat} />
           </CardContent>
         </Card>
       ) : (

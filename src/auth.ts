@@ -9,7 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Google,
     Resend({
-      from: "noreply@contestatie-amenda.ro",
+      from: "onboarding@resend.dev",
     }),
   ],
   pages: {

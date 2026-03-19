@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { getDatePersonale } from "@/app/actions/account";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -185,6 +186,13 @@ export function ContestatieStepper() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getDatePersonale().then((saved) => {
+      if (!saved) return;
+      setFormData((prev) => ({ ...prev, datePersonale: saved }));
+    });
+  }, []);
+
   const totalSteps = 5;
   const progress = ((step - 1) / (totalSteps - 1)) * 100;
 
@@ -304,7 +312,7 @@ export function ContestatieStepper() {
     <div className="space-y-6">
       {/* Progress */}
       <div className="space-y-2">
-        <div className="flex justify-between text-sm text-muted-foreground">
+        <div className="flex justify-between text-m text-muted-foreground">
           <span>Pasul {step} din {totalSteps}</span>
           <span>{Math.round(progress)}%</span>
         </div>
@@ -347,7 +355,7 @@ export function ContestatieStepper() {
                     }));
                     setErrors({});
                   }}
-                  className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 p-5 text-sm font-medium transition-all hover:border-primary hover:bg-primary/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 p-5 text-m font-medium transition-all hover:border-primary hover:bg-primary/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     formData.tip === id
                       ? "border-primary bg-primary/10 text-foreground"
                       : "border-border bg-card text-muted-foreground"
@@ -359,7 +367,7 @@ export function ContestatieStepper() {
               ))}
             </div>
             {errors.tip && (
-              <p className="mt-3 text-sm text-destructive">{errors.tip}</p>
+              <p className="mt-3 text-m text-destructive">{errors.tip}</p>
             )}
           </CardContent>
         </Card>
@@ -581,7 +589,7 @@ export function ContestatieStepper() {
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-m text-muted-foreground">
                 Selectează motivele aplicabile cazului tău:
               </p>
               {motive.map((motiv) => (
@@ -591,7 +599,7 @@ export function ContestatieStepper() {
                     checked={formData.motiveSelectate.includes(motiv)}
                     onCheckedChange={() => toggleMotiv(motiv)}
                   />
-                  <Label htmlFor={motiv} className="text-sm font-normal cursor-pointer leading-snug">
+                  <Label htmlFor={motiv} className="text-m font-normal cursor-pointer leading-snug">
                     {motiv}
                   </Label>
                 </div>
@@ -624,7 +632,7 @@ export function ContestatieStepper() {
           <CardHeader>
             <CardTitle>Confirmă datele și generează contestația</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-5 text-sm">
+          <CardContent className="space-y-5 text-m">
             <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-3">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">Tip contestație:</span>
@@ -671,7 +679,7 @@ export function ContestatieStepper() {
               )}
             </div>
             <p className="text-muted-foreground text-xs">
-              Apasă <strong>Generează contestația</strong> pentru ca GPT-4o să redacteze
+              Apasă <strong>Generează contestația</strong> pentru ca GPT-5.4-mini să redacteze
               documentul. Procesul poate dura 10–30 de secunde.
             </p>
           </CardContent>

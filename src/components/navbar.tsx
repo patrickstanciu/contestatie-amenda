@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export async function Navbar() {
   const session = await auth();
@@ -16,24 +17,35 @@ export async function Navbar() {
           <span>ContestațieAI</span>
         </Link>
 
-        <nav className="hidden sm:flex items-center gap-6 text-sm font-medium">
-          <Link
-            href="/"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Acasă
-          </Link>
-          {session && (
+        <nav className="hidden sm:flex items-center gap-6 text-m font-medium">
+          {!session && (
             <Link
-              href="/dashboard"
+              href="/"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              Dashboard
+              Acasă
             </Link>
+          )}
+          {session && (
+            <>
+              <Link
+                href="/dashboard"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/account"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Setări cont
+              </Link>
+            </>
           )}
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {session ? (
             <>
               <div className="hidden sm:flex items-center gap-2">
@@ -49,7 +61,7 @@ export async function Navbar() {
                     {session.user?.name?.charAt(0).toUpperCase() ?? "U"}
                   </div>
                 )}
-                <span className="text-sm text-muted-foreground truncate max-w-[140px]">
+                <span className="text-m text-muted-foreground truncate max-w-[140px]">
                   {session.user?.name ?? session.user?.email}
                 </span>
               </div>

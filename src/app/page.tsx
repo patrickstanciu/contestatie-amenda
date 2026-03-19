@@ -1,16 +1,20 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+  if (session?.user) redirect("/dashboard");
   return (
     <div className="flex flex-col">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-4 py-24 sm:py-32 text-center bg-gradient-to-b from-muted/50 to-background">
         <div className="mx-auto max-w-3xl space-y-6">
-          <div className="inline-flex items-center rounded-full border border-border bg-muted px-4 py-1.5 text-sm text-muted-foreground">
-            🤖 Powered by GPT-4o
+          <div className="inline-flex items-center rounded-full border border-border bg-muted px-4 py-1.5 text-m text-muted-foreground">
+            🤖 Powered by GPT-5.4-mini
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
             Contestă orice amendă administrativă cu{" "}
@@ -50,7 +54,7 @@ export default function HomePage() {
                 <CardTitle>Formular simplu</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground text-m leading-relaxed">
                   Completezi un formular pas cu pas cu datele tale și ale
                   amenzii. Fără jargon juridic, fără complicații.
                 </p>
@@ -59,11 +63,11 @@ export default function HomePage() {
             <Card className="text-center">
               <CardHeader>
                 <div className="text-4xl mb-2">🤖</div>
-                <CardTitle>Generat cu GPT-4o</CardTitle>
+                <CardTitle>Generat cu GPT-5.4-mini</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  Modelul GPT-4o redactează o contestație juridică formală,
+                <p className="text-muted-foreground text-m leading-relaxed">
+                  Modelul GPT-5.4-mini redactează o contestație juridică formală,
                   adaptată tipului de amendă și motivelor tale.
                 </p>
               </CardContent>
@@ -74,7 +78,7 @@ export default function HomePage() {
                 <CardTitle>Export PDF</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-muted-foreground text-m leading-relaxed">
                   Descarcă contestația gata formatată ca PDF, pregătită pentru
                   a fi trimisă autorității competente.
                 </p>
@@ -106,7 +110,7 @@ export default function HomePage() {
               {
                 step: "2",
                 title: "AI generează contestația",
-                desc: "GPT-4o redactează o contestație profesională în limbaj juridic formal, conform legislației române.",
+                desc: "GPT-5.4-mini redactează o contestație profesională în limbaj juridic formal, conform legislației române.",
                 emoji: "⚡",
               },
               {
@@ -122,7 +126,7 @@ export default function HomePage() {
                 </div>
                 <div className="text-3xl">{emoji}</div>
                 <h3 className="text-lg font-semibold">{title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
+                <p className="text-muted-foreground text-m leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
