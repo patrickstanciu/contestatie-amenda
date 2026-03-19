@@ -47,9 +47,15 @@ function buildPrompt(input: ContestatieInput): string {
   const denumireAct = esteANAF ? "Contestație Administrativă" : "Plângere Contravențională";
   const destinatar = esteANAF ? `unității emitente ${dateAmenda.emitent}` : "Judecătoriei competente";
 
-  const temeiuriSuplimentare = esteANAF
-      ? "Codul de Procedură Fiscală (Legea 207/2015), Art. 336-339"
-      : "OUG 195/2002 (dacă e rutier)";
+  const temeiuriSuplimentare: Record<string, string> = {
+    anaf: "Codul de Procedură Fiscală (Legea 207/2015), Art. 336-339",
+    politie_rutiera: "OUG 195/2002 privind circulația pe drumurile publice, HG 1391/2006",
+    primarie: "Legea 215/2001 a administrației publice locale, OG 2/2001",
+    itm: "Legea 108/1999 (Codul Muncii), Legea 252/2003 privind registrul de evidență a salariaților",
+    isctr: "OG 27/2011 privind transporturile rutiere, Legea 38/2003",
+    altele: "OG 2/2001 privind regimul juridic al contravențiilor, Legea 554/2004",
+  };
+  const temeiSpecific = temeiuriSuplimentare[tip] ?? temeiuriSuplimentare.altele;
 
   const motiveLista = [
     ...motiveSelectate,
@@ -74,7 +80,7 @@ ${motiveLista}
 INSTRUCȚIUNI JURIDICE SPECIALE:
 1. Dacă motivele includ erori de sistem sau prescripție, dezvoltă argumentația pe nulitatea absolută a procesului-verbal conform Art. 16 și 17 din OG 2/2001.
 2. În secțiunea PETIT, solicită OBLIGATORIU, în mod subsidiar, înlocuirea amenzii cu AVERTISMENT conform Art. 7 din OG 2/2001, motivând prin buna credință a contribuabilului și lipsa pericolului social.
-3. Dacă autoritatea este ANAF, invocă obligatoriu ${temeiuriSuplimentare}.
+3. Invocă obligatoriu legislația specifică: ${temeiSpecific}.
 4. Menționează jurisprudența CEDO (cauza Anghel v. România) privind prezumția de nevinovăție în materie contravențională (asimilitată materiei penale).
 
 INSTRUCȚIUNI DE FORMAT — respectă-le cu strictețe:
@@ -86,7 +92,7 @@ INSTRUCȚIUNI DE FORMAT — respectă-le cu strictețe:
 
 STRUCTURA CORPULUI (în această ordine):
 1. INTRODUCERE — identificarea actului contestat (PV nr. ${dateAmenda.nrProcesVerbal})
-2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 și, după caz, ${esteANAF ? "Codul de Procedură Fiscală" : "legislația specifică"}
+2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 și ${temeiSpecific}
 3. MOTIVE DE FAPT ȘI DE DREPT — argumentează fiecare motiv detaliat și separat, incluzând referința la cauza Anghel v. România
 4. PETIT — solicitarea principală (anulare PV, restituire sumă) și solicitarea subsidiară (înlocuire cu avertisment)
 5. PROBE SOLICITATE (înscrisuri, log-uri tehnice, recipise, etc.)
