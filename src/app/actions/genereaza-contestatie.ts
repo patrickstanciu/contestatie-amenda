@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import OpenAI from "openai";
+import { stripMarkdown } from "@/lib/strip-markdown";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -48,39 +49,31 @@ function buildPrompt(input: ContestatieInput): string {
     .map((m, i) => `${i + 1}. ${m}`)
     .join("\n");
 
-  return `Generează o contestație administrativă formală în limba română cu următoarele date:
+  return `Generează corpul unei contestații administrative formale în limba română, pe baza datelor de mai jos.
 
-**PETENT:**
-- Nume și prenume: ${datePersonale.numePrenume}
-- CNP: ${datePersonale.cnp}
-- Adresă: ${datePersonale.adresa}, județul ${datePersonale.judet}
-- Telefon: ${datePersonale.telefon}
-- Email: ${datePersonale.email}
-
-**AUTORITATE EMITENTĂ:**
-- ${TIP_LABELS[tip] ?? tip}
-- Emitent specific: ${dateAmenda.emitent}
-
-**PROCESUL VERBAL CONTESTAT:**
-- Număr proces verbal: ${dateAmenda.nrProcesVerbal}
-- Data amenzii: ${dateAmenda.dataAmenda}
-- Suma amenzii: ${dateAmenda.suma} RON
+DATELE CAZULUI:
+- Petent: ${datePersonale.numePrenume}, CNP ${datePersonale.cnp}, ${datePersonale.adresa}, jud. ${datePersonale.judet}
+- Autoritate emitentă: ${TIP_LABELS[tip] ?? tip} — ${dateAmenda.emitent}
+- Nr. proces verbal: ${dateAmenda.nrProcesVerbal}, data: ${dateAmenda.dataAmenda}, suma: ${dateAmenda.suma} RON
 - Temei legal invocat: ${dateAmenda.temeiLegal || "nedeclacat"}
-- Descrierea faptei reținute: ${dateAmenda.descriereFapta}
-
-**MOTIVE DE CONTESTARE:**
+- Fapta reținută: ${dateAmenda.descriereFapta}
+- Motive de contestare:
 ${motiveLista}
 
-Redactează contestația urmând structura:
-1. Antet cu datele petentului și ale autorității destinatare
-2. Titlu: "CONTESTAȚIE" (centrat, bold)
-3. Introducere: identificarea actului contestat
-4. Temei legal al contestației (OG 2/2001, Legea 554/2004 după caz)
-5. Motive de fapt și de drept — argumentează fiecare motiv în mod detaliat și separat
-6. Petit — solicită anularea procesului verbal și restituirea sumei achitate (dacă este cazul)
-7. Probe solicitate
-8. Mențiune că este scutit de taxă de timbru conform art. 7 din OUG 80/2013
-9. Semnătură și dată
+INSTRUCȚIUNI DE FORMAT — respectă-le cu strictețe:
+- NU include antet, adrese sau titlul "CONTESTAȚIE" — acestea sunt adăugate automat.
+- NU folosi markdown (fără **, fără #, fără _), HTML sau alte sintaxe de formatare.
+- Titlurile de secțiune se scriu CU MAJUSCULE pe o linie separată, urmate de o linie goală.
+- Paragrafele se separă printr-o linie goală.
+- Textul trebuie să fie plain text, gata de inclus într-un document oficial.
+
+STRUCTURA CORPULUI (în această ordine):
+1. Introducere — identificarea actului contestat
+2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 după caz
+3. MOTIVE DE FAPT ȘI DE DREPT — argumentează fiecare motiv detaliat și separat
+4. PETIT — anularea procesului verbal și restituirea sumei (dacă e cazul)
+5. PROBE SOLICITATE
+6. Mențiune scutire taxă de timbru (art. 7 OUG 80/2013)
 
 Folosește limbaj juridic formal, clar și profesional. Documentul trebuie să fie complet și gata de depus.`;
 }
@@ -95,7 +88,7 @@ export async function genereazaContestatia(
   }
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-5.4-mini",
     messages: [
       {
         role: "system",
@@ -108,11 +101,12 @@ export async function genereazaContestatia(
       },
     ],
     temperature: 0.3,
-    max_tokens: 3000,
+    max_completion_tokens: 3000,
   });
 
-  const textGenerat =
-    completion.choices[0]?.message?.content?.trim() ?? "";
+  const textGenerat = stripMarkdown(
+    completion.choices[0]?.message?.content?.trim() ?? ""
+  );
 
   const contestatie = await prisma.contestatie.create({
     data: {

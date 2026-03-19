@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { stripMarkdown } from "@/lib/strip-markdown";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -73,6 +74,10 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
     descriereFapta: string;
   };
 
+  const textCurat = contestatie.textGenerat
+    ? stripMarkdown(contestatie.textGenerat)
+    : null;
+
   const statusInfo = STATUS_BADGE[contestatie.status] ?? {
     label: contestatie.status,
     variant: "secondary" as const,
@@ -107,7 +112,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
 
           {contestatie.textGenerat && (
             <PDFDownloadButton
-              text={contestatie.textGenerat}
+              text={textCurat}
               datePersonale={datePersonale}
               emitent={dateAmenda.emitent}
               contestatieId={contestatie.id}
@@ -183,7 +188,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
       </div>
 
       {/* Generated text */}
-      {contestatie.textGenerat ? (
+      {textCurat ? (
         <Card>
           <CardHeader>
             <CardTitle>Contestația generată</CardTitle>
@@ -195,7 +200,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
           <CardContent className="pt-6">
             <div className="prose prose-sm max-w-none dark:prose-invert">
               <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
-                {contestatie.textGenerat}
+                {textCurat}
               </pre>
             </div>
           </CardContent>

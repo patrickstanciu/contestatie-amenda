@@ -155,7 +155,7 @@ function ContestatiePDFDocument({ text, datePersonale, emitent }: PDFDocumentPro
 }
 
 interface PDFDownloadButtonProps {
-  text: string;
+  text: string | null;
   datePersonale: {
     numePrenume: string;
     cnp: string;
@@ -175,6 +175,8 @@ export function PDFDownloadButton({
   contestatieId,
 }: PDFDownloadButtonProps) {
   const fileName = `contestatie-${contestatieId}.pdf`;
+
+  if (!text) return null;
 
   return (
     <PDFDownloadLink
