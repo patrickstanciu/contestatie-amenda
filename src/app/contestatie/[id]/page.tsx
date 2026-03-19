@@ -68,6 +68,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
   const dateAmenda = contestatie.dateAmenda as {
     nrProcesVerbal: string;
     dataAmenda: string;
+    dataComunicare?: string;
     suma: string;
     emitent: string;
     temeiLegal: string;
@@ -160,13 +161,17 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
               {dateAmenda.nrProcesVerbal}
             </p>
             <p>
-              <span className="font-medium text-foreground">
-                Data amenzii:
-              </span>{" "}
+              <span className="font-medium text-foreground">Data amenzii:</span>{" "}
               {dateAmenda.dataAmenda
                 ? new Date(dateAmenda.dataAmenda).toLocaleDateString("ro-RO")
                 : "-"}
             </p>
+            {dateAmenda.dataComunicare && (
+              <p>
+                <span className="font-medium text-foreground">Data comunicării:</span>{" "}
+                {new Date(dateAmenda.dataComunicare).toLocaleDateString("ro-RO")}
+              </p>
+            )}
             <p>
               <span className="font-medium text-foreground">Sumă:</span>{" "}
               {dateAmenda.suma} RON

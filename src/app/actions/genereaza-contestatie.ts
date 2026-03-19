@@ -20,6 +20,7 @@ export type ContestatieInput = {
   dateAmenda: {
     nrProcesVerbal: string;
     dataAmenda: string;
+    dataComunicare?: string;
     suma: string;
     emitent: string;
     temeiLegal: string;
@@ -40,40 +41,56 @@ const TIP_LABELS: Record<string, string> = {
 
 function buildPrompt(input: ContestatieInput): string {
   const { tip, datePersonale, dateAmenda, motiveSelectate, motiveCustom } =
-    input;
+      input;
+  const esteANAF = tip === 'anaf';
+
+  const denumireAct = esteANAF ? "Contestație Administrativă" : "Plângere Contravențională";
+  const destinatar = esteANAF ? `unității emitente ${dateAmenda.emitent}` : "Judecătoriei competente";
+
+  const temeiuriSuplimentare = esteANAF
+      ? "Codul de Procedură Fiscală (Legea 207/2015), Art. 336-339"
+      : "OUG 195/2002 (dacă e rutier)";
 
   const motiveLista = [
     ...motiveSelectate,
     ...(motiveCustom.trim() ? [motiveCustom.trim()] : []),
   ]
-    .map((m, i) => `${i + 1}. ${m}`)
-    .join("\n");
+      .map((m, i) => `${i + 1}. ${m}`)
+      .join("\n");
 
-  return `Generează corpul unei contestații administrative formale în limba română, pe baza datelor de mai jos.
+  return `Generează corpul unei ${denumireAct} formale în limba română, adresată către ${destinatar}.
 
 DATELE CAZULUI:
 - Petent: ${datePersonale.numePrenume}, CNP ${datePersonale.cnp}, ${datePersonale.adresa}, jud. ${datePersonale.judet}
 - Autoritate emitentă: ${TIP_LABELS[tip] ?? tip} — ${dateAmenda.emitent}
-- Nr. proces verbal: ${dateAmenda.nrProcesVerbal}, data: ${dateAmenda.dataAmenda}, suma: ${dateAmenda.suma} RON
-- Temei legal invocat: ${dateAmenda.temeiLegal || "nedeclacat"}
+- Nr. proces verbal: ${dateAmenda.nrProcesVerbal}, data: ${dateAmenda.dataAmenda}
+- Data comunicării (primirii PV): ${dateAmenda.dataComunicare || "nespecificată"}
+- Suma amenzii: ${dateAmenda.suma} RON
+- Temei legal invocat în PV: ${dateAmenda.temeiLegal || "nedeclarat"}
 - Fapta reținută: ${dateAmenda.descriereFapta}
 - Motive de contestare:
 ${motiveLista}
 
+INSTRUCȚIUNI JURIDICE SPECIALE:
+1. Dacă motivele includ erori de sistem sau prescripție, dezvoltă argumentația pe nulitatea absolută a procesului-verbal conform Art. 16 și 17 din OG 2/2001.
+2. În secțiunea PETIT, solicită OBLIGATORIU, în mod subsidiar, înlocuirea amenzii cu AVERTISMENT conform Art. 7 din OG 2/2001, motivând prin buna credință a contribuabilului și lipsa pericolului social.
+3. Dacă autoritatea este ANAF, invocă obligatoriu ${temeiuriSuplimentare}.
+4. Menționează jurisprudența CEDO (cauza Anghel v. România) privind prezumția de nevinovăție în materie contravențională (asimilitată materiei penale).
+
 INSTRUCȚIUNI DE FORMAT — respectă-le cu strictețe:
-- NU include antet, adrese sau titlul "CONTESTAȚIE" — acestea sunt adăugate automat.
+- NU include antet, adrese sau titlul documentului — acestea sunt adăugate automat.
 - NU folosi markdown (fără **, fără #, fără _), HTML sau alte sintaxe de formatare.
 - Titlurile de secțiune se scriu CU MAJUSCULE pe o linie separată, urmate de o linie goală.
 - Paragrafele se separă printr-o linie goală.
 - Textul trebuie să fie plain text, gata de inclus într-un document oficial.
 
 STRUCTURA CORPULUI (în această ordine):
-1. Introducere — identificarea actului contestat
-2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 după caz
-3. MOTIVE DE FAPT ȘI DE DREPT — argumentează fiecare motiv detaliat și separat
-4. PETIT — anularea procesului verbal și restituirea sumei (dacă e cazul)
-5. PROBE SOLICITATE
-6. Mențiune scutire taxă de timbru (art. 7 OUG 80/2013)
+1. INTRODUCERE — identificarea actului contestat (PV nr. ${dateAmenda.nrProcesVerbal})
+2. TEMEI LEGAL — OG 2/2001, Legea 554/2004 și, după caz, ${esteANAF ? "Codul de Procedură Fiscală" : "legislația specifică"}
+3. MOTIVE DE FAPT ȘI DE DREPT — argumentează fiecare motiv detaliat și separat, incluzând referința la cauza Anghel v. România
+4. PETIT — solicitarea principală (anulare PV, restituire sumă) și solicitarea subsidiară (înlocuire cu avertisment)
+5. PROBE SOLICITATE (înscrisuri, log-uri tehnice, recipise, etc.)
+6. MENȚIUNE SCUTIRE TAXĂ DE TIMBRU (art. 7 OUG 80/2013)
 
 Folosește limbaj juridic formal, clar și profesional. Documentul trebuie să fie complet și gata de depus.`;
 }

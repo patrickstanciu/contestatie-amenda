@@ -36,6 +36,7 @@ type FormData = {
   dateAmenda: {
     nrProcesVerbal: string;
     dataAmenda: string;
+    dataComunicare: string;
     suma: string;
     emitent: string;
     temeiLegal: string;
@@ -135,6 +136,7 @@ const step2Schema = z.object({
 const step3Schema = z.object({
   nrProcesVerbal: z.string().min(1, "Introduceți numărul procesului verbal"),
   dataAmenda: z.string().min(1, "Selectați data amenzii"),
+  dataComunicare: z.string().optional(),
   suma: z.string().min(1, "Introduceți suma amenzii"),
   emitent: z.string().min(1, "Introduceți emitentul"),
   temeiLegal: z.string().optional(),
@@ -164,6 +166,7 @@ const INITIAL_FORM: FormData = {
   dateAmenda: {
     nrProcesVerbal: "",
     dataAmenda: "",
+    dataComunicare: "",
     suma: "",
     emitent: "",
     temeiLegal: "",
@@ -500,6 +503,18 @@ export function ContestatieStepper() {
                   <p className="text-xs text-destructive">{errors.dataAmenda}</p>
                 )}
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="dataComunicare">Data comunicării (opțional)</Label>
+                <Input
+                  id="dataComunicare"
+                  type="date"
+                  value={formData.dateAmenda.dataComunicare}
+                  onChange={(e) => setDateAmenda("dataComunicare", e.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Data la care ți-a fost înmânat / comunicat procesul verbal
+                </p>
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -629,6 +644,9 @@ export function ContestatieStepper() {
                 {formData.dateAmenda.dataAmenda
                   ? new Date(formData.dateAmenda.dataAmenda).toLocaleDateString("ro-RO")
                   : "—"}
+                {formData.dateAmenda.dataComunicare && (
+                  <>, comunicat la {new Date(formData.dateAmenda.dataComunicare).toLocaleDateString("ro-RO")}</>
+                )}
                 , suma: {formData.dateAmenda.suma} RON
               </div>
               <div>
