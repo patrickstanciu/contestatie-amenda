@@ -76,7 +76,7 @@ export default async function AdminStatsPage() {
       <Card>
         <CardHeader><CardTitle className="text-base">Distribuție pe tip</CardTitle></CardHeader>
         <CardContent className="space-y-3">
-          {byTip
+          {[...byTip]
             .sort((a, b) => b._count._all - a._count._all)
             .map(({ tip, _count }) => {
               const pct = totalContestatii > 0 ? Math.round((_count._all / totalContestatii) * 100) : 0;
