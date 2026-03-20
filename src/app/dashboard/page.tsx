@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardTable, type ContestatieRow } from "@/components/dashboard-table";
@@ -17,7 +18,7 @@ export default async function DashboardPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  const rows: ContestatieRow[] = contestatii.map((c) => ({
+  const rows: ContestatieRow[] = contestatii.map((c: Prisma.ContestatieGetPayload<object>) => ({
     id: c.id,
     tip: c.tip,
     status: c.status,
