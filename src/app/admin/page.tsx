@@ -100,7 +100,7 @@ export default async function AdminStatsPage() {
         <CardHeader><CardTitle className="text-base">Distribuție pe status</CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-4">
-            {byStatus.map(({ status, _count }) => (
+            {[...byStatus].map(({ status, _count }) => (
               <div key={status} className="text-center rounded-lg border border-border p-4">
                 <p className="text-2xl font-bold">{_count._all}</p>
                 <p className="text-sm text-muted-foreground capitalize mt-1">{status}</p>
