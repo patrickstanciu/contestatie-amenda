@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { PDFDownloadButton } from "@/components/pdf/ContestatiePDF";
 import { ContestatieTextEditor } from "@/components/contestatie-text-editor";
 import { NextStepsCard } from "@/components/next-steps-card";
+import { SanseEstimativeCard } from "@/components/sanse-estimative-card";
 
 export const dynamic = "force-dynamic";
 
@@ -193,6 +194,14 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Șanse estimative */}
+      {contestatie.motivePredefinite.length > 0 && (
+        <SanseEstimativeCard
+          motiveSelectate={contestatie.motivePredefinite}
+          motiveCustom={contestatie.motiveCustom}
+        />
+      )}
 
       {/* Generated text */}
       {textCurat ? (

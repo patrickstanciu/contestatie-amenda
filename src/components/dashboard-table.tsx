@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { PDFDownloadButton } from "@/components/pdf/ContestatiePDF";
 import { DeleteContestatieButton } from "@/components/delete-contestatie-button";
+import { ContestatiePreviewDialog } from "@/components/contestatie-preview-dialog";
 
 const TIP_LABELS: Record<string, string> = {
   anaf: "ANAF",
@@ -95,6 +96,14 @@ export function DashboardTable({ rows }: Readonly<{ rows: ContestatieRow[] }>) {
                           <Button render={<Link href={`/contestatie/${c.id}`} />} variant="outline" size="sm">
                             Vizualizează
                           </Button>
+                          {c.textGenerat && (
+                            <ContestatiePreviewDialog
+                              text={c.textGenerat}
+                              datePersonale={c.datePersonale}
+                              emitent={c.dateAmenda.emitent}
+                              contestatieId={c.id}
+                            />
+                          )}
                           {c.textGenerat && (
                             <PDFDownloadButton
                               text={stripMarkdown(c.textGenerat)}

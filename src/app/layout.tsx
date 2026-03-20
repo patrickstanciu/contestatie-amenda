@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/auth";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -32,11 +27,16 @@ export default async function RootLayout({
   return (
     <html lang="ro">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} antialiased min-h-screen flex flex-col`}
       >
         <Providers session={session}>
           <Navbar />
           <main className="flex-1">{children}</main>
+          <footer className="border-t py-4 mt-8">
+            <p className="text-center text-xs text-muted-foreground px-4">
+              ⚠️ Acest document este generat automat și nu constituie consultanță juridică. Consultați un avocat pentru situații complexe.
+            </p>
+          </footer>
           <Toaster richColors position="top-right" />
         </Providers>
       </body>

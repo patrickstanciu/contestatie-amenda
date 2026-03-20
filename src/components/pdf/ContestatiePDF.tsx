@@ -91,6 +91,18 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: "#444",
   },
+  disclaimer: {
+    marginTop: 20,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "#ccc",
+    borderTopStyle: "solid",
+  },
+  disclaimerText: {
+    fontSize: 8,
+    color: "#888",
+    textAlign: "center",
+  },
 });
 
 interface PDFDocumentProps {
@@ -148,6 +160,13 @@ function ContestatiePDFDocument({ text, datePersonale, emitent }: PDFDocumentPro
         <View style={styles.footer}>
           <Text style={styles.footerText}>Data: {today}</Text>
           <Text style={styles.footerText}>Semnătură: ___________________</Text>
+        </View>
+
+        {/* Disclaimer */}
+        <View style={styles.disclaimer}>
+          <Text style={styles.disclaimerText}>
+            Acest document este generat automat si nu constituie consultanta juridica. Consultati un avocat pentru situatii complexe.
+          </Text>
         </View>
       </Page>
     </Document>

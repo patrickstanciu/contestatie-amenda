@@ -16,6 +16,18 @@ export function ContestatieTextEditor({ id, initialText }: Readonly<ContestatieT
   const [text, setText] = useState(initialText);
   const [draft, setDraft] = useState(initialText);
   const [saving, setSaving] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      toast.success("Text copiat în clipboard!");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Nu s-a putut copia.");
+    }
+  }
 
   async function handleSave() {
     setSaving(true);
@@ -60,9 +72,14 @@ export function ContestatieTextEditor({ id, initialText }: Readonly<ContestatieT
           <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground">
             {text}
           </pre>
-          <Button size="sm" variant="outline" onClick={() => setEditing(true)}>
-            ✏️ Editează
-          </Button>
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={handleCopy}>
+              {copied ? "✅ Copiat!" : "📋 Copiază"}
+            </Button>
+            <Button size="sm" variant="outline" onClick={() => setEditing(true)}>
+              ✏️ Editează
+            </Button>
+          </div>
         </>
       )}
     </div>
