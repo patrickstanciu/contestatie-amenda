@@ -10,6 +10,7 @@ import {
   PDFDownloadLink,
 } from "@react-pdf/renderer";
 import { Button } from "@/components/ui/button";
+import { trackDownload } from "@/app/actions/track-download";
 
 Font.register({
   family: "Roboto",
@@ -214,6 +215,7 @@ export function PDFDownloadButton({
           size="sm"
           disabled={loading}
           title={error ? String(error) : undefined}
+          onClick={() => trackDownload(contestatieId)}
         >
           {loading
             ? "Se pregătește PDF..."

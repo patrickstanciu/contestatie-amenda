@@ -128,16 +128,32 @@ Redactează documentul complet, coerent și pregătit pentru utilizare.`;
 
 export async function genereazaContestatia(
   input: ContestatieInput
-): Promise<{ id: string }> {
+): Promise<{ id: string; fallback?: boolean }> {
   const session = await auth();
 
   if (!session?.user?.id) {
     throw new Error("Neautentificat. Te rugăm să te autentifici.");
   }
 
-  let completion;
+  // Rate limiting: max 5 generări per utilizator pe zi (DB-based)
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const recentCount = await prisma.contestatie.count({
+    where: {
+      userId: session.user.id,
+      createdAt: { gte: startOfDay },
+      status: { not: "draft" },
+    },
+  });
+  if (recentCount >= 5) {
+    throw new Error("Ai atins limita de 5 contestații generate pe zi. Revino mâine.");
+  }
+
+  let textGenerat: string | null = null;
+  let usedFallback = false;
+
   try {
-    completion = await openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: "gpt-5.4-mini",
       messages: [
         {
@@ -153,20 +169,20 @@ export async function genereazaContestatia(
       temperature: 0.3,
       max_completion_tokens: 3000,
     });
+
+    const rawText = completion.choices[0]?.message?.content?.trim();
+    if (!rawText) throw new Error("Modelul AI nu a returnat niciun conținut.");
+    textGenerat = stripMarkdown(rawText);
   } catch (err) {
+    // For 401/429 (config/quota errors) — fail hard, don't save
     if (err instanceof OpenAI.APIError) {
       if (err.status === 401) throw new Error("Cheie API OpenAI invalidă. Verifică configurarea.");
       if (err.status === 429) throw new Error("Limita de utilizare OpenAI a fost atinsă. Încearcă din nou în câteva minute.");
-      if (err.status >= 500) throw new Error("Serviciul OpenAI este temporar indisponibil. Încearcă din nou.");
-      throw new Error(`Eroare OpenAI (${err.status}): ${err.message}`);
     }
-    throw new Error("Generarea a eșuat. Verifică conexiunea și încearcă din nou.");
+    // For 5xx / timeout / network — save draft with fallback template so user doesn't lose data
+    usedFallback = true;
+    textGenerat = null;
   }
-
-  const rawText = completion.choices[0]?.message?.content?.trim();
-  if (!rawText) throw new Error("Modelul AI nu a returnat niciun conținut. Încearcă din nou.");
-
-  const textGenerat = stripMarkdown(rawText);
 
   const contestatie = await prisma.contestatie.create({
     data: {
@@ -177,9 +193,9 @@ export async function genereazaContestatia(
       motiveCustom: input.motiveCustom || null,
       motivePredefinite: input.motiveSelectate,
       textGenerat,
-      status: "generat",
+      status: usedFallback ? "draft" : "generat",
     },
   });
 
-  return { id: contestatie.id };
+  return { id: contestatie.id, fallback: usedFallback };
 }

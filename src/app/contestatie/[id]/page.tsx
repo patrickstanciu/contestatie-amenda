@@ -3,6 +3,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { stripMarkdown } from "@/lib/strip-markdown";
+import { maskCnp } from "@/lib/mask-cnp";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -138,7 +139,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
             </p>
             <p>
               <span className="font-medium text-foreground">CNP:</span>{" "}
-              {datePersonale.cnp}
+              <span className="font-mono">{maskCnp(datePersonale.cnp)}</span>
             </p>
             <p>
               <span className="font-medium text-foreground">Adresă:</span>{" "}
@@ -223,6 +224,7 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
             tip={contestatie.tip}
             dataComunicare={dateAmenda.dataComunicare}
             emitent={dateAmenda.emitent}
+            judet={datePersonale.judet}
           />
         </>
       ) : (

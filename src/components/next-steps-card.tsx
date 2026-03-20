@@ -1,19 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { calculeazaTermen } from "@/lib/calculeaza-termen";
+import { detecteazaInstanta } from "@/lib/detecteaza-instanta";
 
 interface NextStepsCardProps {
   tip: string;
   dataComunicare?: string;
   emitent: string;
+  judet?: string;
 }
-
-const TERMENE: Record<string, number> = {
-  anaf: 30,
-  politie_rutiera: 15,
-  primarie: 15,
-  itm: 15,
-  isctr: 15,
-  altele: 15,
-};
 
 const UNDE_DEPUI: Record<string, { titlu: string; detaliu: string }> = {
   anaf: {
@@ -68,13 +62,6 @@ const CUM_DEPUI: Record<string, { fizic: string; online?: string }> = {
   },
 };
 
-function calculeazaDeadline(dataComunicare: string | undefined, termeniZile: number) {
-  if (!dataComunicare) return null;
-  const data = new Date(dataComunicare);
-  if (isNaN(data.getTime())) return null;
-  data.setDate(data.getDate() + termeniZile);
-  return data;
-}
 
 function DeadlineBadge({ deadline, termeniZile }: { deadline: Date; termeniZile: number }) {
   const azi = new Date();
@@ -85,11 +72,14 @@ function DeadlineBadge({ deadline, termeniZile }: { deadline: Date; termeniZile:
 
   if (diff < 0) {
     return (
-      <div className="rounded-md bg-destructive/10 border border-destructive/30 px-4 py-3">
-        <p className="font-semibold text-destructive">⚠️ Termen depășit</p>
-        <p className="text-sm text-destructive/80 mt-0.5">
-          Termenul de {termeniZile} zile a expirat pe {dateStr}. Consultă un avocat — contestarea poate fi posibilă în circumstanțe speciale.
+      <div className="rounded-lg border-2 border-destructive bg-destructive/10 px-4 py-4 space-y-2">
+        <p className="font-bold text-destructive text-base">🚨 Termen legal depășit</p>
+        <p className="text-sm text-destructive/90">
+          Termenul de <strong>{termeniZile} zile</strong> a expirat pe <strong>{dateStr}</strong> (acum {Math.abs(diff)} {Math.abs(diff) === 1 ? "zi" : "zile"} în urmă).
         </p>
+        <div className="rounded-md bg-destructive/15 px-3 py-2 text-sm font-medium text-destructive">
+          ⚠️ Este posibil ca plângerea să fie respinsă ca tardivă. Consultă urgent un avocat — în unele cazuri există motive de repunere în termen.
+        </div>
       </div>
     );
   }
@@ -117,11 +107,11 @@ function DeadlineBadge({ deadline, termeniZile }: { deadline: Date; termeniZile:
   );
 }
 
-export function NextStepsCard({ tip, dataComunicare, emitent }: Readonly<NextStepsCardProps>) {
-  const termeniZile = TERMENE[tip] ?? 15;
+export function NextStepsCard({ tip, dataComunicare, emitent, judet }: Readonly<NextStepsCardProps>) {
+  const { deadline, termeniZile } = calculeazaTermen(tip, dataComunicare);
   const unde = UNDE_DEPUI[tip] ?? UNDE_DEPUI.altele;
   const cum = CUM_DEPUI[tip] ?? CUM_DEPUI.altele;
-  const deadline = calculeazaDeadline(dataComunicare, termeniZile);
+  const instanta = tip !== "anaf" ? detecteazaInstanta(judet) : null;
 
   return (
     <Card className="border-primary/20">
@@ -153,12 +143,30 @@ export function NextStepsCard({ tip, dataComunicare, emitent }: Readonly<NextSte
         {/* Unde depui */}
         <div className="space-y-2">
           <h3 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground">2. Unde depui</h3>
-          <div className="rounded-md bg-muted px-4 py-3 text-sm space-y-1">
+          <div className="rounded-md bg-muted px-4 py-3 text-sm space-y-2">
             <p className="font-medium">{unde.titlu}</p>
-            <p className="text-muted-foreground">{unde.detaliu}</p>
-            {tip !== "anaf" && (
+            {instanta ? (
+              <div className="rounded-md border border-primary/30 bg-primary/5 px-3 py-2.5 space-y-1">
+                <p className="font-semibold text-primary">🏛️ {instanta.nume}</p>
+                <p className="text-muted-foreground text-xs">{instanta.adresa}</p>
+                <a
+                  href={instanta.portal}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary underline underline-offset-2 hover:opacity-80"
+                >
+                  Depune online pe portal.just.ro →
+                </a>
+                <p className="text-xs text-muted-foreground pt-1">
+                  ⚠️ Judecătoria competentă este cea din raza locului faptei, nu neapărat a județului tău. Verifică dacă fapta a avut loc în alt județ.
+                </p>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">{unde.detaliu}</p>
+            )}
+            {!instanta && tip !== "anaf" && (
               <p className="text-muted-foreground">
-                Poți verifica judecătoria competentă la{" "}
+                Verifică judecătoria competentă la{" "}
                 <a href="https://portal.just.ro" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">
                   portal.just.ro
                 </a>.

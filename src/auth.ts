@@ -9,11 +9,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Google,
     Resend({
-      from: "onboarding@resend.dev",
+      apiKey: process.env.AUTH_RESEND_KEY,
+      from: "contact@contestatieamenda.ro",
     }),
   ],
   pages: {
     signIn: "/login",
+    verifyRequest: "/auth/verify-request",
   },
   callbacks: {
     session({ session, user }) {

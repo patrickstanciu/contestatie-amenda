@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieBanner } from "@/components/cookie-banner";
 import { auth } from "@/auth";
 
 const inter = Inter({
@@ -32,12 +33,21 @@ export default async function RootLayout({
         <Providers session={session}>
           <Navbar />
           <main className="flex-1">{children}</main>
-          <footer className="border-t py-4 mt-8">
-            <p className="text-center text-xs text-muted-foreground px-4">
-              ⚠️ Acest document este generat automat și nu constituie consultanță juridică. Consultați un avocat pentru situații complexe.
-            </p>
+          <footer className="border-t py-6 mt-8">
+            <div className="mx-auto max-w-5xl px-4 flex flex-col items-center gap-3">
+              <p className="text-center text-xs text-muted-foreground">
+                ⚠️ Documentele sunt generate automat și nu constituie consultanță juridică. Consultați un avocat pentru situații complexe.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
+                <a href="/termeni" className="hover:text-foreground transition-colors underline underline-offset-4">Termeni și Condiții</a>
+                <a href="/confidentialitate" className="hover:text-foreground transition-colors underline underline-offset-4">Politică de Confidențialitate</a>
+                <a href="/cookies" className="hover:text-foreground transition-colors underline underline-offset-4">Politică Cookies</a>
+                <span>© {new Date().getFullYear()} TECHNEST LABS SRL</span>
+              </div>
+            </div>
           </footer>
           <Toaster richColors position="top-right" />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

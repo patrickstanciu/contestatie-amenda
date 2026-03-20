@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { genereazaContestatia } from "@/app/actions/genereaza-contestatie";
+import { calculeazaTermen } from "@/lib/calculeaza-termen";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -185,6 +186,7 @@ export function ContestatieStepper() {
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
+  const [disclaimerAcceptat, setDisclaimerAcceptat] = useState(false);
 
   useEffect(() => {
     getDatePersonale().then((saved) => {
@@ -294,7 +296,11 @@ export function ContestatieStepper() {
     setLoading(true);
     try {
       const result = await genereazaContestatia(formData);
-      toast.success("Contestația a fost generată cu succes!");
+      if (result.fallback) {
+        toast.warning("Serviciul AI este temporar indisponibil. Datele tale au fost salvate ca draft — revino în câteva minute pentru a regenera.");
+      } else {
+        toast.success("Contestația a fost generată cu succes!");
+      }
       router.push(`/contestatie/${result.id}`);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Eroare necunoscută";
@@ -678,6 +684,35 @@ export function ContestatieStepper() {
                 </div>
               )}
             </div>
+            {/* Expired term warning */}
+            {(() => {
+              const termen = calculeazaTermen(formData.tip, formData.dateAmenda.dataComunicare);
+              if (termen.status !== "expirat") return null;
+              const dateStr = termen.deadline?.toLocaleDateString("ro-RO", { day: "2-digit", month: "long", year: "numeric" });
+              const zileTrecute = termen.zileRamase !== null ? Math.abs(termen.zileRamase) : 0;
+              return (
+                <div className="rounded-lg border-2 border-destructive bg-destructive/10 px-4 py-4 space-y-2">
+                  <p className="font-bold text-destructive">🚨 Atenție: Termen legal depășit</p>
+                  <p className="text-sm text-destructive/90">
+                    Termenul de <strong>{termen.termeniZile} zile</strong> a expirat pe <strong>{dateStr}</strong> ({zileTrecute} {zileTrecute === 1 ? "zi" : "zile"} în urmă).
+                  </p>
+                  <div className="rounded-md bg-destructive/15 px-3 py-2 text-sm font-medium text-destructive">
+                    ⚠️ Este posibil ca plângerea să fie respinsă ca tardivă. Consultă un avocat înainte de depunere — în unele cazuri există motive de repunere în termen.
+                  </div>
+                </div>
+              );
+            })()}
+            <div className="flex items-start gap-3 rounded-lg border border-border p-4 bg-muted/20">
+              <Checkbox
+                id="disclaimer"
+                checked={disclaimerAcceptat}
+                onCheckedChange={(checked) => setDisclaimerAcceptat(checked === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="disclaimer" className="text-sm font-normal cursor-pointer leading-snug">
+                Am înțeles că documentul este generat automat și poate necesita verificare sau adaptare înainte de a fi depus.
+              </Label>
+            </div>
             <p className="text-muted-foreground text-xs">
               Apasă <strong>Generează contestația</strong> pentru ca GPT-5.4-mini să redacteze
               documentul. Procesul poate dura 10–30 de secunde.
@@ -701,7 +736,7 @@ export function ContestatieStepper() {
             Continuă →
           </Button>
         ) : (
-          <Button type="button" onClick={handleGenerate} disabled={loading}>
+          <Button type="button" onClick={handleGenerate} disabled={loading || !disclaimerAcceptat}>
             {loading ? "Se generează..." : "⚡ Generează contestația"}
           </Button>
         )}
