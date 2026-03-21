@@ -28,6 +28,8 @@ export type ContestatieInput = {
     emitent: string;
     temeiLegal: string;
     descriereFapta: string;
+    nrPermis?: string;
+    nrInmatriculare?: string;
   };
   motiveSelectate: string[];
   motiveCustom: string;
@@ -90,7 +92,7 @@ DATELE CAZULUI:
 - Data comunicării: ${dateAmenda.dataComunicare || "nespecificată"}
 - Suma amenzii: ${dateAmenda.suma} RON
 - Temei legal invocat în procesul-verbal: ${dateAmenda.temeiLegal || "nespecificat"}
-- Fapta reținută: ${dateAmenda.descriereFapta}
+- Fapta reținută: ${dateAmenda.descriereFapta}${dateAmenda.nrInmatriculare ? `\n- Nr. înmatriculare vehicul: ${dateAmenda.nrInmatriculare}` : ""}${dateAmenda.nrPermis ? `\n- Nr. permis de conducere: ${dateAmenda.nrPermis}` : ""}
 - Motive invocate:
 ${motiveLista}
 

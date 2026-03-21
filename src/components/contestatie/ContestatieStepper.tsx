@@ -43,6 +43,8 @@ type FormData = {
     emitent: string;
     temeiLegal: string;
     descriereFapta: string;
+    nrPermis: string;
+    nrInmatriculare: string;
   };
   motiveSelectate: string[];
   motiveCustom: string;
@@ -173,6 +175,8 @@ const INITIAL_FORM: FormData = {
     emitent: "",
     temeiLegal: "",
     descriereFapta: "",
+    nrPermis: "",
+    nrInmatriculare: "",
   },
   motiveSelectate: [],
   motiveCustom: "",
@@ -569,6 +573,32 @@ export function ContestatieStepper() {
                 placeholder="ex. Art. 102 alin. (3) lit. a) din OUG 195/2002"
               />
             </div>
+            {/* Câmpuri extra pentru amenzi rutiere */}
+            {formData.tip === "politie_rutiera" && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border border-primary/20 bg-primary/5 p-4">
+                <div className="col-span-full text-sm font-medium text-primary flex items-center gap-2">
+                  🚔 Date suplimentare pentru amendă rutieră (opțional)
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="nrInmatriculare">Nr. de înmatriculare vehicul</Label>
+                  <Input
+                    id="nrInmatriculare"
+                    value={formData.dateAmenda.nrInmatriculare}
+                    onChange={(e) => setDateAmenda("nrInmatriculare", e.target.value)}
+                    placeholder="ex. CJ 01 ABC"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="nrPermis">Nr. permis de conducere</Label>
+                  <Input
+                    id="nrPermis"
+                    value={formData.dateAmenda.nrPermis}
+                    onChange={(e) => setDateAmenda("nrPermis", e.target.value)}
+                    placeholder="ex. 12345678"
+                  />
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="descriereFapta">Descrierea faptei reținute *</Label>
               <Textarea
