@@ -40,6 +40,14 @@ export async function Navbar() {
               >
                 Setări cont
               </Link>
+              {session.user?.email === process.env.ADMIN_EMAIL && (
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary hover:bg-primary/20 transition-colors"
+                >
+                  📊 Admin
+                </Link>
+              )}
             </>
           )}
         </nav>
