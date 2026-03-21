@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { articles } from "@/lib/articles";
 
 export default async function HomePage() {
   const session = await auth();
@@ -195,6 +196,43 @@ export default async function HomePage() {
             <Button render={<Link href="/login" />} size="lg" className="text-base px-10">
               Începe acum — e gratuit
             </Button>
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Blog teaser */}
+      <section className="py-16 px-4">
+        <div className="mx-auto max-w-5xl">
+          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Ghiduri și articole utile</h2>
+              <p className="mt-1 text-muted-foreground">Tot ce trebuie să știi despre contestarea amenzilor</p>
+            </div>
+            <Button render={<Link href="/blog" />} variant="outline" size="sm">
+              Vezi toate articolele →
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {articles.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/blog/${article.slug}`}
+                className="group rounded-xl border border-border bg-card p-5 hover:border-primary/50 hover:shadow-sm transition-all space-y-3"
+              >
+                <div className="text-3xl">{article.emoji}</div>
+                <div>
+                  <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                    {article.category}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-sm leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                  {article.title}
+                </h3>
+                <p className="text-xs text-muted-foreground">{article.readTime} min citire</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

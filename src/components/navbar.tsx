@@ -19,12 +19,20 @@ export async function Navbar() {
 
         <nav className="hidden sm:flex items-center gap-6 text-m font-medium">
           {!session && (
-            <Link
-              href="/"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Acasă
-            </Link>
+            <>
+              <Link
+                href="/"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Acasă
+              </Link>
+              <Link
+                href="/blog"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Blog
+              </Link>
+            </>
           )}
           {session && (
             <>
