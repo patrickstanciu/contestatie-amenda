@@ -39,6 +39,7 @@ export default async function AdminStatsPage() {
     newUsersLast7Days,
     users,
     recentContestatii,
+    feedbacks,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.contestatie.count(),
@@ -70,10 +71,25 @@ export default async function AdminStatsPage() {
         user: { select: { email: true, name: true } },
       },
     }),
+    prisma.feedback.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 50,
+      select: {
+        id: true,
+        rating: true,
+        mesaj: true,
+        createdAt: true,
+        user: { select: { email: true } },
+      },
+    }),
   ]);
 
   const convGenerare = totalContestatii > 0 ? Math.round((totalGenerate / totalContestatii) * 100) : 0;
   const convDescarcare = totalGenerate > 0 ? Math.round((totalDescarcate / totalGenerate) * 100) : 0;
+  const avgRating = feedbacks.length > 0
+    ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(1)
+    : null;
+  const RATING_EMOJI = ["", "😞", "😕", "😐", "🙂", "🤩"] as const;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 space-y-8">
@@ -198,6 +214,44 @@ export default async function AdminStatsPage() {
               </tbody>
             </table>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Feedback */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center justify-between">
+            <span>Feedback utilizatori ({feedbacks.length})</span>
+            {avgRating && (
+              <span className="text-sm font-normal text-muted-foreground">
+                Rating mediu: <strong className="text-foreground">{avgRating} / 5</strong>
+              </span>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {feedbacks.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-6">Niciun feedback primit încă.</p>
+          ) : (
+            <div className="space-y-3">
+              {feedbacks.map((f) => (
+                <div key={f.id} className="flex items-start gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                  <span className="text-2xl shrink-0">{RATING_EMOJI[f.rating]}</span>
+                  <div className="flex-1 min-w-0">
+                    {f.mesaj ? (
+                      <p className="text-sm">{f.mesaj}</p>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">Fără mesaj</p>
+                    )}
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {f.user?.email ?? "Anonim"} · {new Date(f.createdAt).toLocaleDateString("ro-RO", { day: "2-digit", month: "short", year: "numeric" })}
+                    </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground shrink-0">{f.rating}/5</span>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

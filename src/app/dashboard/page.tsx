@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { DashboardTable, type ContestatieRow } from "@/components/dashboard-table";
+import { FeedbackCard } from "@/components/feedback-card";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -53,6 +54,11 @@ export default async function DashboardPage() {
       ) : (
         <DashboardTable rows={rows} />
       )}
+
+      {/* Feedback */}
+      <div className="mt-10 max-w-lg mx-auto">
+        <FeedbackCard />
+      </div>
     </div>
   );
 }

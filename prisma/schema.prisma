@@ -16,6 +16,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   contestatii   Contestatie[]
+  feedbacks     Feedback[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -65,5 +66,14 @@ model Contestatie {
   status         String   @default("draft") // draft | generat | descarcat
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  rating    Int      // 1-5
+  mesaj     String?
+  createdAt DateTime @default(now())
 }
 
