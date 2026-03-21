@@ -70,7 +70,7 @@ export default async function RootLayout({
           <footer className="border-t py-6 mt-8">
             <div className="mx-auto max-w-5xl px-4 flex flex-col items-center gap-3">
               <p className="text-center text-xs text-muted-foreground">
-                ⚠️ Documentele sunt generate automat și nu constituie consultanță juridică. Consultați un avocat pentru situații complexe.
+                ⚠️ ContestațieAI este un instrument software automatizat. Documentele generate nu constituie consultanță juridică și nu există relație avocat-client. Nu garantăm admiterea contestației. Consultați un avocat pentru situații complexe.
               </p>
               <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
                 <a href="/termeni" className="hover:text-foreground transition-colors underline underline-offset-4">Termeni și Condiții</a>

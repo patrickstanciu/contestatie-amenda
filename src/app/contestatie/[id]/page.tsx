@@ -207,6 +207,9 @@ export default async function ContestatieDetailPage({ params }: PageProps) {
       {/* Generated text */}
       {textCurat ? (
         <>
+          <div className="rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-sm text-amber-800 dark:text-amber-300">
+            ⚠️ <strong>Instrument software automatizat.</strong> Documentul de mai jos este generat automat și <strong>nu constituie consultanță juridică</strong>. Nu există relație avocat-client. Verificați și adaptați conținutul înainte de depunere. ContestațieAI nu garantează admiterea contestației.
+          </div>
           <Card>
             <CardHeader>
               <CardTitle>Contestația generată</CardTitle>

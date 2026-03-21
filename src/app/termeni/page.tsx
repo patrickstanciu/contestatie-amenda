@@ -36,20 +36,25 @@ export default function TermeniPage() {
         </p>
       </Section>
 
-      <Section title="2. Descrierea serviciului și caracterul necomercial al documentelor">
+      <Section title="2. Descrierea serviciului — instrument software automatizat">
         <p>
-          ContestațieAI este un serviciu digital care utilizează inteligența artificială (OpenAI GPT) pentru a asista utilizatorii în redactarea documentelor de contestație administrativă (plângeri contravenționale, contestații acte administrative fiscale etc.).
+          ContestațieAI este un <strong className="text-foreground">instrument software automatizat</strong> care utilizează inteligența artificială (OpenAI GPT) pentru a genera șabloane de documente de contestație administrativă, pe baza informațiilor introduse de utilizator.
         </p>
         <p className="mt-3">
-          <strong className="text-foreground">Limitare esențială:</strong> Documentele generate au caracter exclusiv <strong>informativ și de asistare</strong>. Ele nu constituie și nu înlocuiesc:
+          <strong className="text-foreground">⚠️ Limitare esențială — citește cu atenție:</strong>
         </p>
-        <ul className="list-disc list-inside mt-2 space-y-1 text-muted-foreground">
-          <li>Consultanța juridică oferită de un avocat (Legea nr. 51/1995);</li>
-          <li>Asistența unui consilier juridic;</li>
-          <li>Orice altă formă de reprezentare juridică profesională.</li>
+        <ul className="list-disc list-inside mt-2 space-y-2 text-muted-foreground">
+          <li><strong className="text-foreground">Nu există relație avocat-client</strong> între utilizator și TECHNEST LABS SRL sau platforma ContestațieAI;</li>
+          <li>Documentele generate sunt <strong className="text-foreground">șabloane automatizate</strong>, nu consultanță juridică personalizată;</li>
+          <li>ContestațieAI <strong className="text-foreground">nu garantează admiterea contestației</strong> și nu răspunde pentru rezultatul procedurilor juridice;</li>
+          <li>Serviciul nu constituie și nu înlocuiește consultanța unui avocat (Legea nr. 51/1995), a unui consilier juridic sau orice altă formă de asistență juridică profesională;</li>
+          <li>Utilizatorul are <strong className="text-foreground">obligația de a verifica și adapta</strong> documentul generat înainte de depunere.</li>
         </ul>
         <p className="mt-3">
-          TECHNEST LABS SRL nu exercită activitate de asistență juridică și nu este înscrisă în Baroul Avocaților din România.
+          TECHNEST LABS SRL este o societate de tehnologie. Nu exercită și nu oferă activitate de asistență sau consultanță juridică. Nu este înscrisă în Baroul Avocaților din România și nu este supusă Legii nr. 51/1995 privind exercitarea profesiei de avocat.
+        </p>
+        <p className="mt-3">
+          ContestațieAI se încadrează în categoria <strong className="text-foreground">software de productivitate juridică</strong> — similar generatoarelor de contracte, formularelor pre-completate sau editorelor de documente — și nu în categoria serviciilor juridice reglementate.
         </p>
       </Section>
 
@@ -81,22 +86,23 @@ export default function TermeniPage() {
         </p>
       </Section>
 
-      <Section title="5. Limitarea răspunderii">
+      <Section title="5. Limitarea răspunderii și absența garanțiilor">
         <p>
-          În măsura permisă de legislația aplicabilă, TECHNEST LABS SRL nu este responsabilă pentru:
+          ContestațieAI furnizează documente generate automat <strong className="text-foreground">fără nicio garanție</strong> privind corectitudinea juridică, admisibilitatea sau rezultatul procedurilor. În măsura permisă de legislația aplicabilă, TECHNEST LABS SRL nu este responsabilă pentru:
         </p>
         <ul className="list-disc list-inside mt-3 space-y-2 text-muted-foreground">
           <li>Inexactitățile, omisiunile sau inadecvările conținutului generat de AI față de situația ta specifică;</li>
-          <li>Consecințele juridice, inclusiv respingerea contestației, cauzate de utilizarea nemodificată a unui document generat;</li>
-          <li>Deciziile instanțelor, tribunalelor sau autorităților administrative ca urmare a contestațiilor depuse;</li>
-          <li>Pierderea de date sau întreruperea serviciului cauzate de evenimente tehnice, forță majoră sau atacuri cibernetice;</li>
-          <li>Erori în calculul termenelor legale — te rugăm să verifici întotdeauna termenele aplicabile cu un specialist.</li>
+          <li>Respingerea contestației de către instanță sau autoritate administrativă;</li>
+          <li>Consecințele juridice sau financiare ale utilizării documentului generat;</li>
+          <li>Deciziile instanțelor, tribunalelor sau autorităților administrative;</li>
+          <li>Erori în calculul termenelor legale — verificați întotdeauna termenele cu un specialist;</li>
+          <li>Pierderea de date sau întreruperea serviciului cauzate de evenimente tehnice sau forță majoră.</li>
         </ul>
         <p className="mt-3">
-          Răspunderea noastră totală față de tine, pentru orice cauză și indiferent de forma acțiunii, este limitată la suma de <strong>0 EUR</strong> (serviciul este gratuit), cu excepția cazurilor de fraudă sau neglijență gravă.
+          <strong className="text-foreground">Nicio parte a acestui serviciu nu constituie consultanță juridică.</strong> Utilizatorul acționează pe propria răspundere și este singurul responsabil pentru decizia de a depune sau nu un document generat de platformă.
         </p>
         <p className="mt-3">
-          Prezentele limitări nu afectează drepturile tale legale ca <strong>consumator</strong> în temeiul Legii nr. 363/2007 și al Directivei UE 2019/770 privind contractele pentru furnizarea de conținut digital.
+          Răspunderea noastră totală față de tine este limitată la <strong>0 EUR</strong> (serviciul este gratuit), cu excepția cazurilor de fraudă sau neglijență gravă, conform Legii nr. 363/2007 și Directivei UE 2019/770.
         </p>
       </Section>
 
