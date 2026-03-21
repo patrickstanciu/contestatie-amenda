@@ -1,5 +1,29 @@
-export { auth as proxy } from "@/auth";
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export async function proxy(request: NextRequest) {
+  const maintenance = process.env.MAINTENANCE_MODE === "true";
+  const { pathname } = request.nextUrl;
+
+  if (
+    maintenance &&
+    pathname !== "/maintenance" &&
+    !pathname.startsWith("/api/auth")
+  ) {
+    return NextResponse.redirect(new URL("/maintenance", request.url));
+  }
+
+  if (!maintenance && pathname === "/maintenance") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // @ts-expect-error — auth middleware accepts NextRequest
+  return auth(request);
+}
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/contestatie/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.png|.*\\.svg|.*\\.jpg|.*\\.ico).*)",
+  ],
 };
