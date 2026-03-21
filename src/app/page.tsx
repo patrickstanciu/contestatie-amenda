@@ -137,6 +137,71 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <Separator />
+
+      {/* SEO internal links */}
+      <section className="py-16 px-4">
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl font-bold tracking-tight">Tipuri de contestații</h2>
+            <p className="mt-2 text-muted-foreground">Ghiduri detaliate pentru fiecare tip de amendă</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { href: "/contestatie-radar", emoji: "🚗", title: "Contestație Amendă Radar", desc: "Radar neomologat, termen depășit, erori în PV" },
+              { href: "/contestatie-anaf", emoji: "🏛️", title: "Contestație Decizie ANAF", desc: "Decizii de impunere, amenzi fiscale, TVA" },
+              { href: "/contestatie-primarie", emoji: "🏙️", title: "Contestație Amendă Primărie", desc: "Parcare, salubritate, contravenții administrative" },
+              { href: "/contestatie-itm", emoji: "👷", title: "Contestație Amendă ITM", desc: "Control muncă, legislația muncii" },
+            ].map(({ href, emoji, title, desc }) => (
+              <Link key={href} href={href} className="group rounded-xl border border-border p-5 hover:border-primary/50 hover:bg-muted/30 transition-all space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{emoji}</span>
+                  <span className="font-semibold group-hover:text-primary transition-colors">{title}</span>
+                </div>
+                <p className="text-sm text-muted-foreground">{desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* FAQ with JSON-LD */}
+      <section className="py-16 px-4 bg-muted/20">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                { "@type": "Question", name: "Cât costă să contest o amendă?", acceptedAnswer: { "@type": "Answer", text: "Plângerile contravenționale sunt scutite de taxă de timbru (OUG 80/2013). ContestațieAI este gratuit pentru generarea documentului." } },
+                { "@type": "Question", name: "În cât timp trebuie să contest o amendă?", acceptedAnswer: { "@type": "Answer", text: "15 zile de la data comunicării procesului verbal pentru contravenții (OG 2/2001), sau 30 de zile pentru actele ANAF (Legea 207/2015)." } },
+                { "@type": "Question", name: "Trebuie să plătesc amenda dacă o contest?", acceptedAnswer: { "@type": "Answer", text: "Nu. Depunerea plângerii contravenţionale suspendă executarea sancţiunii până la soluţionarea definitivă a cauzei." } },
+                { "@type": "Question", name: "Merită să contest o amendă?", acceptedAnswer: { "@type": "Answer", text: "Da, mai ales dacă există vicii procedurale. Instanțele admit frecvent contestațiile bazate pe erori formale. Nu riști nimic — contestația nu atrage costuri suplimentare." } },
+              ],
+            }),
+          }}
+        />
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-center mb-8">Întrebări frecvente</h2>
+          <div className="space-y-4">
+            {[
+              { q: "Cât costă să contest o amendă?", a: "Plângerile contravenționale sunt scutite de taxă de timbru (OUG 80/2013). ContestațieAI este gratuit pentru generarea documentului." },
+              { q: "În cât timp trebuie să contest o amendă?", a: "15 zile de la data comunicării procesului verbal pentru contravenții (OG 2/2001), sau 30 de zile pentru actele ANAF (Legea 207/2015)." },
+              { q: "Trebuie să plătesc amenda dacă o contest?", a: "Nu. Depunerea plângerii contravenţionale suspendă executarea sancţiunii până la soluţionarea definitivă a cauzei (OG 2/2001, Art. 32)." },
+              { q: "Merită să contest o amendă?", a: "Da, mai ales dacă există vicii procedurale. Instanțele admit frecvent contestațiile bazate pe erori formale. Nu riști nimic — contestația nu atrage costuri suplimentare." },
+            ].map(({ q, a }) => (
+              <div key={q} className="rounded-xl border border-border bg-background p-5 space-y-2">
+                <p className="font-semibold">{q}</p>
+                <p className="text-sm text-muted-foreground">{a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
