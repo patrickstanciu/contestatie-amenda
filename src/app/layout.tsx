@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { CookieBanner } from "@/components/cookie-banner";
 import { auth } from "@/auth";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -66,6 +67,7 @@ export default async function RootLayout({
           <CookieBanner />
         </Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
