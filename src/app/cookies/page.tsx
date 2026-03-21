@@ -18,7 +18,7 @@ export default function CookiesPage() {
       </div>
 
       <div className="rounded-xl border border-green-200 bg-green-50 dark:bg-green-950/30 dark:border-green-800 p-4 text-sm text-green-800 dark:text-green-300">
-        <strong>Pe scurt:</strong> Folosim exclusiv cookie-uri <strong>esențiale</strong> pentru autentificare și stocare locală pentru preferința de notificare cookies. <strong>Nu folosim niciun cookie de tracking, publicitate sau analytics bazat pe identificare individuală.</strong>
+        <strong>Pe scurt:</strong> Folosim cookie-uri <strong>esențiale</strong> pentru autentificare, cookie-uri de <strong>publicitate/conversii Google Ads</strong> (doar cu consimțământul tău) și stocare locală pentru preferințe.
       </div>
 
       <Section title="1. Ce sunt cookie-urile și stocarea locală">
@@ -112,22 +112,39 @@ export default function CookiesPage() {
         </p>
       </Section>
 
-      <Section title="5. Cookie-uri de la terți (publicitate, tracking)">
+      <Section title="5. Cookie-uri de publicitate — Google Ads">
         <p>
-          <strong className="text-foreground">Nu folosim</strong> cookie-uri de la terți în scop publicitar, de retargeting sau tracking comportamental. Nu avem integrări cu Google Analytics, Facebook Pixel, Hotjar sau servicii similare.
+          Utilizăm <strong>Google Ads (Google LLC)</strong> pentru măsurarea conversiilor din campaniile noastre publicitare. Acest serviciu plasează cookie-uri de urmărire <strong>doar dacă îți dai consimțământul explicit</strong> prin bannerul de cookie-uri.
+        </p>
+        <p className="mt-3">Cookie-uri plasate de Google Ads (doar cu consimțământ):</p>
+        <ul className="list-disc list-inside mt-1 space-y-1 text-muted-foreground">
+          <li><strong>_gcl_au</strong> — urmărire conversii Google Ads; expiră în 90 de zile;</li>
+          <li><strong>_gads, _gac_*</strong> — măsurarea performanței anunțurilor; expiră în 13 luni.</li>
+        </ul>
+        <p className="mt-3">
+          Dacă <strong>refuzi</strong> cookie-urile, Google Ads operează în modul <em>Consent Mode v2</em> — nu plasează cookie-uri de identificare, dar poate folosi modelare statistică agregată și anonimă pentru raportare.
+        </p>
+        <p className="mt-3">
+          Îți poți retrage consimțământul oricând ștergând datele din browser sau contactând echipa noastră. Politica de confidențialitate Google: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-4">policies.google.com/privacy</a>.
         </p>
       </Section>
 
-      <Section title="6. Baza legală pentru cookie-urile esențiale">
+      <Section title="6. Cookie-uri de la alți terți">
         <p>
-          Cookie-urile de sesiune și CSRF sunt strict necesare funcționării serviciului (autentificare, securitate). Conform Art. 5(3) din Directiva 2002/58/CE (ePrivacy), implementat prin <strong>Legea nr. 506/2004 Art. 4(2)</strong>, aceste cookie-uri sunt <strong>exceptate de la cerința de consimțământ</strong> deoarece sunt necesare exclusiv pentru furnizarea unui serviciu solicitat explicit de utilizator.
+          <strong className="text-foreground">Nu folosim</strong> Facebook Pixel, Hotjar, Google Analytics (doar Google Ads cu consimțământ, descris mai sus) sau alte servicii de tracking comportamental.
+        </p>
+      </Section>
+
+      <Section title="7. Baza legală pentru cookie-uri">
+        <p>
+          Cookie-urile de sesiune și CSRF sunt strict necesare funcționării serviciului — <strong>exceptate de la cerința de consimțământ</strong> conform Art. 5(3) din Directiva 2002/58/CE, implementat prin <strong>Legea nr. 506/2004 Art. 4(2)</strong>. Cookie-urile Google Ads sunt plasate pe baza <strong>consimțământului explicit (Art. 6(1)(a) GDPR)</strong> — dacă refuzi, nu sunt plasate.
         </p>
         <p className="mt-3">
           Nu vei putea utiliza serviciul (autentifica, genera contestații) dacă blochezi complet cookie-urile — acestea sunt necesare tehnic.
         </p>
       </Section>
 
-      <Section title="7. Cum poți controla și șterge cookie-urile">
+      <Section title="8. Cum poți controla și șterge cookie-urile">
         <p>
           Poți gestiona cookie-urile din setările browserului tău:
         </p>
@@ -142,13 +159,13 @@ export default function CookiesPage() {
         </p>
       </Section>
 
-      <Section title="8. Modificări ale politicii de cookies">
+      <Section title="9. Modificări ale politicii de cookies">
         <p>
           Această politică poate fi actualizată în cazul în care introducem noi funcționalități sau servicii terțe. Modificările vor fi comunicate prin actualizarea datei din antet și, în cazul modificărilor semnificative, prin notificare în aplicație.
         </p>
       </Section>
 
-      <Section title="9. Contact">
+      <Section title="10. Contact">
         <p>
           Întrebări privind cookie-urile sau stocarea datelor:
         </p>

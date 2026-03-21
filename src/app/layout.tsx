@@ -44,6 +44,23 @@ export default async function RootLayout({
 
   return (
     <html lang="ro">
+      <head>
+        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18031857239" />
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('consent', 'default', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            wait_for_update: 500
+          });
+          gtag('js', new Date());
+          gtag('config', 'AW-18031857239');
+        `}} />
+      </head>
       <body
         className={`${inter.variable} antialiased min-h-screen flex flex-col`}
       >

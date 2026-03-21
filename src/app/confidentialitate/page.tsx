@@ -47,6 +47,7 @@ export default function ConfidentialitiatePage() {
             ["Date de utilizare a serviciului", "Contestații create, statusuri (generat/descărcat), date și ore", "Funcționarea serviciului, istoricul tău", "Art. 6(1)(b) — executarea contractului"],
             ["Date tehnice de sesiune", "Adresă IP (prin autentificare), tip browser, cookie de sesiune", "Securitate, prevenirea fraudei, autentificare", "Art. 6(1)(f) — interes legitim"],
             ["Date analitice agregate", "Număr vizite, țări (fără identificare individuală), prin Vercel Analytics", "Îmbunătățirea serviciului", "Art. 6(1)(f) — interes legitim"],
+            ["Date de conversie publicitară", "Cookie-uri Google Ads (_gcl_au) — doar dacă accepți cookie-urile publicitare", "Măsurarea eficienței campaniilor Google Ads", "Art. 6(1)(a) — consimțământ"],
           ]}
           headers={["Categorie", "Date colectate", "Scop", "Baza legală GDPR"]}
         />
@@ -82,6 +83,7 @@ export default function ConfidentialitiatePage() {
             ["Vercel Inc.", "SUA", "Hosting aplicație + Analytics agregat (Standard Contractual Clauses)", "Durata serviciului"],
             ["Neon / PostgreSQL", "UE (Frankfurt)", "Baza de date — stocarea datelor utilizatorilor", "Durata contului + 30 zile după ștergere"],
             ["Google LLC (OAuth)", "SUA", "Autentificare opțională prin Google (Standard Contractual Clauses)", "Sesiune / token OAuth"],
+            ["Google LLC (Ads)", "SUA", "Măsurarea conversiilor din Google Ads — doar cu consimțământ (Standard Contractual Clauses)", "90 zile (cookie _gcl_au)"],
             ["Resend Inc.", "SUA", "Trimitere email pentru autentificare magic link (Standard Contractual Clauses)", "Per trimitere — neretenționate"],
           ]}
           headers={["Furnizor", "Locație date", "Scop și mecanism de transfer", "Retenție"]}
