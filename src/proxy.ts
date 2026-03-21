@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
     pathname !== "/maintenance" &&
     !pathname.startsWith("/api/auth")
   ) {
-    return NextResponse.redirect(new URL("/maintenance", request.url));
+    return new NextResponse("Service Unavailable", { status: 503 });
   }
 
   if (!maintenance && pathname === "/maintenance") {
