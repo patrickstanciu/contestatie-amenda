@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieBanner } from "@/components/cookie-banner";
 import { auth } from "@/auth";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -49,6 +50,7 @@ export default async function RootLayout({
           <Toaster richColors position="top-right" />
           <CookieBanner />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
