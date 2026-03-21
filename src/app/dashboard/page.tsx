@@ -5,7 +5,6 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardTable, type ContestatieRow } from "@/components/dashboard-table";
 
 export default async function DashboardPage() {
@@ -39,20 +38,18 @@ export default async function DashboardPage() {
       </div>
 
       {rows.length === 0 ? (
-        <Card className="flex flex-col items-center justify-center py-20 text-center">
-          <CardHeader>
-            <div className="text-5xl mb-4">📄</div>
-            <CardTitle>Nu ai generat nicio contestație</CardTitle>
-            <CardDescription className="max-w-sm">
+        <div className="flex flex-col items-center justify-center text-center py-20 px-4 space-y-6">
+          <div className="text-6xl">📄</div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold">Nu ai generat nicio contestație</h2>
+            <p className="text-muted-foreground text-sm max-w-xs mx-auto">
               Generează prima ta contestație administrativă în câteva minute cu ajutorul inteligenței artificiale.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button render={<Link href="/contestatie/noua" />} size="lg">
-              Generează o contestație
-            </Button>
-          </CardContent>
-        </Card>
+            </p>
+          </div>
+          <Button render={<Link href="/contestatie/noua" />} size="lg">
+            + Contestație nouă
+          </Button>
+        </div>
       ) : (
         <DashboardTable rows={rows} />
       )}

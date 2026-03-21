@@ -26,7 +26,7 @@ export default async function HomePage() {
             îl descarci și îl trimiți.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-            <Button render={<Link href="/contestatie/noua" />} size="lg" className="text-base px-8">
+            <Button render={<Link href="/login" />} size="lg" className="text-base px-8">
               Generează o contestație
             </Button>
             <Button render={<Link href="/login" />} size="lg" variant="outline" className="text-base px-8">
@@ -131,7 +131,7 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Button render={<Link href="/contestatie/noua" />} size="lg" className="text-base px-10">
+            <Button render={<Link href="/login" />} size="lg" className="text-base px-10">
               Începe acum — e gratuit
             </Button>
           </div>
