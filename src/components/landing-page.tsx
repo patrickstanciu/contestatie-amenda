@@ -105,7 +105,7 @@ export function LandingPage({ config }: Readonly<{ config: LandingPageConfig }>)
         {/* CTA bottom */}
         <section className="text-center space-y-4 py-6 border-t border-border">
           <p className="font-semibold text-lg">Gata să contești amenda?</p>
-          <p className="text-muted-foreground text-sm">Generezi contestația în 5 minute, complet gratuit.</p>
+          <p className="text-muted-foreground text-sm">Generezi contestația în 3 minute, complet gratuit.</p>
           <Button render={<Link href="/login" />} size="lg" className="text-base px-8">
             Începe acum — e gratuit
           </Button>

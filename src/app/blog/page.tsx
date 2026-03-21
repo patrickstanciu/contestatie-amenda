@@ -113,7 +113,7 @@ export default function BlogIndexPage() {
             Gata să contești?
           </h2>
           <p className="text-green-800 dark:text-green-300 text-base max-w-md mx-auto">
-            Generează contestația acum cu AI — document profesional în 5 minute,
+            Generează contestația acum cu AI — document profesional în 3 minute,
             complet gratuit, scutit de taxă de timbru.
           </p>
           <Button

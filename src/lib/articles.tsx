@@ -182,7 +182,7 @@ export const articles: Article[] = [
             </p>
             <p>
               Vrei să generezi contestația fără să plătești nimic? Folosește{" "}
-              <Link href="/contestatie/noua">ContestațieAI</Link> — documentul este gata în 5 minute,
+              <Link href="/contestatie/noua">ContestațieAI</Link> — documentul este gata în 3 minute,
               complet gratuit.
             </p>
           </>

@@ -66,12 +66,12 @@ export default function OgImage() {
             marginBottom: "48px",
           }}
         >
-          Contestă amenzile cu AI în 5 minute — 100% gratuit
+          Contestă amenzile cu AI în 3 minute — 100% gratuit
         </div>
 
         {/* Features row */}
         <div style={{ display: "flex", gap: "24px" }}>
-          {["✅ Gratuit", "⚡ 5 minute", "📄 Export PDF", "📊 Estimare șanse"].map((f) => (
+          {["✅ Gratuit", "⚡ 3 minute", "📄 Export PDF", "📊 Estimare șanse"].map((f) => (
             <div
               key={f}
               style={{

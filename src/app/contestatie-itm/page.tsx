@@ -5,7 +5,7 @@ const config = {
   emoji: "👷",
   title: "Contestație Amendă ITM — Model Generat cu AI",
   metaTitle: "Contestație Amendă ITM | ContestațieAI",
-  metaDescription: "Contestă o amendă de la Inspectoratul Teritorial de Muncă în 5 minute. Generăm automat plângerea contravențională conform legislației muncii.",
+  metaDescription: "Contestă o amendă de la Inspectoratul Teritorial de Muncă în 3 minute. Generăm automat plângerea contravențională conform legislației muncii.",
   keywords: ["contestatie amenda ITM", "contestatie inspectorat munca", "plangere contraventionala ITM", "contestatie amenda legislatia muncii"],
   intro: "Ai primit o amendă de la ITM (Inspectoratul Teritorial de Muncă) în urma unui control? Poți contesta în termen de 15 zile. ContestațieAI generează plângerea contravențională conform Codului Muncii și legislației aplicabile.",
   motiveTitle: "Motive frecvente pentru contestarea amenzilor ITM",

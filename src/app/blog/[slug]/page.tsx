@@ -201,7 +201,7 @@ export default async function ArticlePage({
             Generează contestația acum
           </h2>
           <p className="text-green-800 dark:text-green-300 text-base max-w-md mx-auto">
-            Document profesional generat cu AI în 5 minute — complet gratuit,
+            Document profesional generat cu AI în 3 minute — complet gratuit,
             scutit de taxă de timbru prin lege.
           </p>
           <Button

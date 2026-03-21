@@ -5,7 +5,7 @@ const config = {
   emoji: "🏙️",
   title: "Contestație Amendă Primărie — Model Generat cu AI",
   metaTitle: "Contestație Amendă Primărie | ContestațieAI",
-  metaDescription: "Contestă o amendă de la Primărie în 5 minute. Parcare, salubritate, construcții neautorizate — generăm plângerea contravențională profesional.",
+  metaDescription: "Contestă o amendă de la Primărie în 3 minute. Parcare, salubritate, construcții neautorizate — generăm plângerea contravențională profesional.",
   keywords: ["contestatie amenda primarie", "contestatie amenda parcare", "plangere contraventionala primarie", "contestatie amenda salubritate", "model contestatie primarie"],
   intro: "Ai primit o amendă de la Primărie pentru parcare, salubritate, construcții sau alte contravenții administrative? Poți contesta în termen de 15 zile. ContestațieAI generează automat plângerea contravențională.",
   motiveTitle: "Motive frecvente pentru contestarea amenzilor de la Primărie",

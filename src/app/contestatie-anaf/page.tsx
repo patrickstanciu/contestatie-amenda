@@ -5,7 +5,7 @@ const config = {
   emoji: "🏛️",
   title: "Contestație Decizie ANAF — Model Generat cu AI",
   metaTitle: "Contestație ANAF | ContestațieAI",
-  metaDescription: "Contestă o decizie ANAF în 5 minute. Generăm automat o contestație fiscală profesională — impozite, TVA, amenzi fiscale, decizii de impunere.",
+  metaDescription: "Contestă o decizie ANAF în 3 minute. Generăm automat o contestație fiscală profesională — impozite, TVA, amenzi fiscale, decizii de impunere.",
   keywords: ["contestatie ANAF", "contestatie decizie impunere", "contestatie amenda fiscala", "contestatie TVA", "model contestatie ANAF"],
   intro: "Ai primit o decizie de impunere, o amendă fiscală sau un act administrativ fiscal de la ANAF cu care nu ești de acord? Poți contesta în termen de 30 de zile. ContestațieAI generează automat contestația fiscală, conform Codului de procedură fiscală.",
   motiveTitle: "Motive frecvente pentru contestarea deciziilor ANAF",

@@ -17,11 +17,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ContestațieAI | Generează contestații administrative cu AI",
   description:
-    "Contestă amenzile rapid și profesionist. Generezi o contestație administrativă în 5 minute cu ajutorul inteligenței artificiale — ANAF, Poliție Rutieră, Primărie și altele.",
+    "Contestă amenzile rapid și profesionist. Generezi o contestație administrativă în 3 minute cu ajutorul inteligenței artificiale — ANAF, Poliție Rutieră, Primărie și altele.",
   metadataBase: new URL("https://www.contestatieamenda.ro"),
   openGraph: {
     title: "ContestațieAI — Contestă amenzile cu AI",
-    description: "Generezi o contestație administrativă profesională în 5 minute.",
+    description: "Generezi o contestație administrativă profesională în 3 minute.",
     url: "https://www.contestatieamenda.ro",
     siteName: "ContestațieAI",
     locale: "ro_RO",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ContestațieAI — Contestă amenzile cu AI",
-    description: "Generezi o contestație administrativă profesională în 5 minute.",
+    description: "Generezi o contestație administrativă profesională în 3 minute.",
   },
   keywords: ["contestatie amenda", "contestatie administrativă", "contestatie radar", "contestatie ANAF", "plangere contraventionala"],
 };

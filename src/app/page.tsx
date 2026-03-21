@@ -25,7 +25,7 @@ export default async function HomePage() {
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
             Contestă amenda în{" "}
-            <span className="text-primary">5 minute</span>
+            <span className="text-primary">3 minute</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             Completezi un formular simplu, AI-ul redactează contestația în limbaj juridic profesional, tu o descarci și o trimiți.{" "}
@@ -38,7 +38,7 @@ export default async function HomePage() {
           </div>
           {/* Trust signals */}
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
-            <span>⚡ Gata în 5 minute</span>
+            <span>⚡ Gata în 3 minute</span>
             <span>📄 Export PDF</span>
             <span>📊 Estimare șanse de câștig</span>
             <span>🏛️ Instanță detectată automat</span>

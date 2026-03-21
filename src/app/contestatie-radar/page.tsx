@@ -5,7 +5,7 @@ const config = {
   emoji: "🚗",
   title: "Contestație Amendă Radar — Model Generat cu AI",
   metaTitle: "Contestație Amendă Radar | ContestațieAI",
-  metaDescription: "Contestă amenda de la radar în 5 minute. Generăm automat o plângere contravențională profesională pe baza motivelor tale — aparatul neomologat, vitezoze neclare, erori în PV.",
+  metaDescription: "Contestă amenda de la radar în 3 minute. Generăm automat o plângere contravențională profesională pe baza motivelor tale — aparatul neomologat, vitezoze neclare, erori în PV.",
   keywords: ["contestatie amenda radar", "contestatie amenda viteza", "plangere contraventionala radar", "contestatie radar neomologat", "model contestatie amenda"],
   intro: "Ai primit o amendă pentru viteză sau alt motiv constatat cu radar? Poți contesta procesul verbal în termen de 15 zile. ContestațieAI generează automat o plângere contravențională profesională, adaptată motivelor tale specifice.",
   motiveTitle: "Motive frecvente pentru contestarea amenzilor de radar",
