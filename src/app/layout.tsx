@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "ContestațieAI — Contestă amenzile cu AI",
     description: "Generezi o contestație administrativă profesională în 5 minute.",
   },
