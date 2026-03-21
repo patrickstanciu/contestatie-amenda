@@ -59,7 +59,7 @@ export default function ConfidentialitiatePage() {
         <Table
           rows={[
             ["OpenAI", "SUA", "Generarea textului contestației (date trimise per cerere, nestocate)"],
-            ["Vercel / hosting", "UE/SUA", "Găzduirea aplicației"],
+            ["Vercel / hosting", "UE/SUA", "Găzduirea aplicației + analytics agregate fără cookies (pageviews, țări)"],
             ["Baza de date (PostgreSQL)", "UE", "Stocarea datelor"],
             ["Google OAuth", "SUA", "Autentificare opțională"],
             ["Resend", "SUA", "Trimitere email magic link (opțional)"],
