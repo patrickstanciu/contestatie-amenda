@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
 export default async function HomePage() {
@@ -11,80 +10,142 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-4 py-24 sm:py-32 text-center bg-gradient-to-b from-muted/50 to-background">
-        <div className="mx-auto max-w-3xl space-y-6">
-          <div className="inline-flex items-center rounded-full border border-border bg-muted px-4 py-1.5 text-m text-muted-foreground">
-            🤖 Powered by GPT-5.4-mini
+      <section className="flex flex-col items-center justify-center px-4 py-20 sm:py-28 text-center bg-gradient-to-b from-accent/40 via-background to-background">
+        <div className="mx-auto max-w-3xl space-y-7">
+          {/* Free badge — very prominent */}
+          <div className="flex flex-wrap justify-center gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-700 px-4 py-1.5 text-sm font-semibold">
+              🎁 100% Gratuit — fără abonament, fără card
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
+              ⚖️ Contestații administrative generate cu AI
+            </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground">
-            Contestă orice amendă administrativă cu{" "}
-            <span className="text-primary">AI</span>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+            Contestă amenda în{" "}
+            <span className="text-primary">5 minute</span>
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Generăm contestații administrative profesionale în câteva minute.
-            Completezi un formular simplu, AI-ul redactează documentul legal, tu
-            îl descarci și îl trimiți.
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Completezi un formular simplu, AI-ul redactează contestația în limbaj juridic profesional, tu o descarci și o trimiți.{" "}
+            <strong className="text-foreground">Scutit de taxă de timbru.</strong>
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
-            <Button render={<Link href="/login" />} size="lg" className="text-base px-8">
-              Generează o contestație
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-1">
+            <Button render={<Link href="/login" />} size="lg" className="text-base px-8 shadow-md">
+              Generează contestația acum — gratuit →
             </Button>
-            <Button render={<Link href="/login" />} size="lg" variant="outline" className="text-base px-8">
-              Intră în cont
-            </Button>
+          </div>
+          {/* Trust signals */}
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
+            <span>⚡ Gata în 5 minute</span>
+            <span>📄 Export PDF</span>
+            <span>📊 Estimare șanse de câștig</span>
+            <span>🏛️ Instanță detectată automat</span>
+            <span>🔒 Date securizate</span>
           </div>
         </div>
       </section>
 
       <Separator />
 
-      {/* Features */}
+      {/* Features grid */}
       <section className="py-20 px-4">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">De ce ContestațieAI?</h2>
+            <h2 className="text-3xl font-bold tracking-tight">Tot ce ai nevoie, inclus gratuit</h2>
             <p className="mt-3 text-muted-foreground text-lg">
-              Tot ce ai nevoie pentru a contesta o amendă, într-un singur loc.
+              Nu plătești nimic. Nicio funcționalitate ascunsă după un paywall.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <Card className="text-center">
-              <CardHeader>
-                <div className="text-4xl mb-2">📋</div>
-                <CardTitle>Formular simplu</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-m leading-relaxed">
-                  Completezi un formular pas cu pas cu datele tale și ale
-                  amenzii. Fără jargon juridic, fără complicații.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardHeader>
-                <div className="text-4xl mb-2">🤖</div>
-                <CardTitle>Generat cu GPT-5.4-mini</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-m leading-relaxed">
-                  Modelul GPT-5.4-mini redactează o contestație juridică formală,
-                  adaptată tipului de amendă și motivelor tale.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardHeader>
-                <div className="text-4xl mb-2">📄</div>
-                <CardTitle>Export PDF</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-m leading-relaxed">
-                  Descarcă contestația gata formatată ca PDF, pregătită pentru
-                  a fi trimisă autorității competente.
-                </p>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* Feature: AI generation */}
+            <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+              <div className="text-3xl">🤖</div>
+              <h3 className="font-semibold text-base">Generare AI profesională</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                GPT-5.4-mini redactează o contestație în limbaj juridic formal, adaptată tipului de amendă și motivelor selectate.
+              </p>
+            </div>
+
+            {/* Feature: Estimare sanse — highlighted */}
+            <div className="rounded-xl border-2 border-primary/40 bg-primary/5 p-6 space-y-3 relative">
+              <div className="absolute -top-3 right-4 text-xs font-semibold bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full">
+                Unic
+              </div>
+              <div className="text-3xl">📊</div>
+              <h3 className="font-semibold text-base">Estimare șanse de câștig</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Analizăm motivele selectate și îți arătăm o probabilitate estimată de succes (Ridicate / Medii / Reduse), cu bara de progres și explicații clare.
+              </p>
+              {/* Mini preview */}
+              <div className="rounded-lg bg-background border border-border p-3 space-y-2 mt-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">Probabilitate estimată</span>
+                  <span className="text-xs font-semibold text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40 px-2 py-0.5 rounded-full">🟢 Ridicate</span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                  <div className="h-full rounded-full bg-green-500" style={{ width: "73%" }} />
+                </div>
+                <p className="text-xs text-muted-foreground">73% — Vicii procedurale clare detectate</p>
+              </div>
+            </div>
+
+            {/* Feature: PDF */}
+            <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+              <div className="text-3xl">📄</div>
+              <h3 className="font-semibold text-base">Export PDF gata de trimis</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Contestația este formatată automat ca PDF cu toate câmpurile completate, gata să fie tipărită sau trimisă prin poștă/email.
+              </p>
+            </div>
+
+            {/* Feature: Termen */}
+            <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+              <div className="text-3xl">📅</div>
+              <h3 className="font-semibold text-base">Calcul termen de contestare</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Introduci data procesului verbal și îți arătăm dacă mai ești în termen legal (15 zile pentru contravenții, 30 pentru ANAF). Avertizare clară dacă termenul a expirat.
+              </p>
+            </div>
+
+            {/* Feature: Instanta */}
+            <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+              <div className="text-3xl">🏛️</div>
+              <h3 className="font-semibold text-base">Instanță detectată automat</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Pe baza județului tău, detectăm automat judecătoria competentă, cu adresa exactă și linkul către portalul instanței pentru depunere online.
+              </p>
+            </div>
+
+            {/* Feature: Editor */}
+            <div className="rounded-xl border border-border bg-card p-6 space-y-3">
+              <div className="text-3xl">✏️</div>
+              <h3 className="font-semibold text-base">Editor text înainte de descărcare</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Poți modifica textul generat direct în browser înainte să îl descarci. Sau îl copiezi în clipboard cu un singur click.
+              </p>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <Separator />
+
+      {/* Free callout banner */}
+      <section className="py-12 px-4 bg-green-50 dark:bg-green-950/30 border-y border-green-100 dark:border-green-900">
+        <div className="mx-auto max-w-3xl text-center space-y-4">
+          <div className="text-4xl">🎁</div>
+          <h2 className="text-2xl font-bold tracking-tight text-green-900 dark:text-green-100">
+            ContestațieAI este complet gratuit
+          </h2>
+          <p className="text-green-800 dark:text-green-300 text-base leading-relaxed max-w-xl mx-auto">
+            Fără abonament lunar, fără card de credit, fără costuri ascunse.
+            Generezi contestația, o descarci PDF și o trimiți — tot procesul este gratuit.
+            Contestațiile sunt scutite de taxă de timbru prin lege (OUG 80/2013).
+          </p>
+          <Button render={<Link href="/login" />} size="lg" className="bg-green-700 hover:bg-green-800 text-white text-base px-10 shadow-md mt-2">
+            Încearcă gratuit acum →
+          </Button>
         </div>
       </section>
 
@@ -104,19 +165,19 @@ export default async function HomePage() {
               {
                 step: "1",
                 title: "Completezi formularul",
-                desc: "Introduci datele tale personale, detaliile amenzii și alegi motivele de contestare.",
+                desc: "Introduci datele personale, detaliile amenzii și alegi motivele de contestare din lista predefinită sau scrii propria motivare.",
                 emoji: "✏️",
               },
               {
                 step: "2",
-                title: "AI generează contestația",
-                desc: "GPT-5.4-mini redactează o contestație profesională în limbaj juridic formal, conform legislației române.",
+                title: "AI generează + analizează",
+                desc: "GPT-5.4-mini redactează contestația profesională, iar sistemul îți estimează șansele de succes și calculează termenul legal.",
                 emoji: "⚡",
               },
               {
                 step: "3",
-                title: "Descarci PDF-ul",
-                desc: "Documentul final este disponibil instant pentru descărcare și trimitere.",
+                title: "Editezi și descarci PDF",
+                desc: "Verifici textul, îl modifici dacă vrei, apoi descarci PDF-ul gata de trimis la instanța detectată automat.",
                 emoji: "✅",
               },
             ].map(({ step, title, desc, emoji }) => (
@@ -126,7 +187,7 @@ export default async function HomePage() {
                 </div>
                 <div className="text-3xl">{emoji}</div>
                 <h3 className="text-lg font-semibold">{title}</h3>
-                <p className="text-muted-foreground text-m leading-relaxed">{desc}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
